@@ -8,8 +8,9 @@ class Database{
 		if($db){
 			$this->db = $db;
 		} else{
-			if(isset($_SESSION['loggedin'])) $this->db = $_SESSION['league'];
-			else{ $this->db = 0; }
+			//if(isset($_SESSION['loggedin'])) $this->db = $_SESSION['league'];
+			//else{ $this->db = 0; }
+			$this->db = 0;
 		}
 		$this->config = new Config();
 		$this->init();

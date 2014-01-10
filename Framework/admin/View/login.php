@@ -9,9 +9,20 @@
 					</h4>
 				</div>
 				<div class="panel-body">
-					<input class="f" />
-					<input class="f" />
-					<button class="btn btn-primary">Login</button>
+					<?php if(!empty($this->messages)): ?>
+					<div class="alerts">
+						<?php foreach($this->messages as $message): ?>
+						<div class="alert alert-<?php echo $message['type']; ?>">
+							<?php echo $message['notice']; ?>
+						</div>
+						<?php endforeach; ?>
+					</div>
+					<?php endif; ?>
+					<form name="login-form" method="POST">
+						<input type="text" name="username" placeholder="Enter Username" />
+						<input type="password" name="password" placeholder="Enter Password" />
+						<button class="btn btn-primary">Login</button>
+					</form>
 				</div>
 			</div>
 		</div>

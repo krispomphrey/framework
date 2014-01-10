@@ -14,7 +14,8 @@ class Controller{
 	// An array of ALLOW or DENY access levels
 	public $auth = array();
 	public function debug($data){
-		if(Config::debug == 1){
+		$config = new Config();
+		if($config->debug == 1){
 			echo '<pre>';
 			var_dump($data);
 			echo '</pre>';
@@ -43,7 +44,7 @@ class Controller{
 	public function pre_init(){}
 	public function init(){}
 	public function auth(){
-		if(isset($this->protected) && $this->protected == 1){
+		if(isset($this->protected) && $this->protected == 1 && $this->user->loggedin == 0){
 			if(!empty($this->auth) && is_array($this->auth)){
 				foreach($this->auth as $type => $acls){
 					if(in_array($this->user->acl, $acls)){

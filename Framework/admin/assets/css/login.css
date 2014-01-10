@@ -24,6 +24,8 @@ html, body{
 .login-box input{
 	width: 100%;
 	margin-bottom: 15px;
+	font-size: 24px;
+	font-weight: 300;
 }
 .login-box button.btn{
 	width: 100%;

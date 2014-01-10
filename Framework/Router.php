@@ -6,7 +6,7 @@ class Router{
 	public $ignore;
 	public function __construct(){
 		$this->build_route();
-		$this->ignore = array('Uploads', 'Assets', 'Framework/admin');
+		$this->ignore = array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico');
 	}
 	private function build_route(){
 		$this->route = substr($_SERVER['PHP_SELF'], strlen('/index.php/'));
