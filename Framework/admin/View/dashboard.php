@@ -1,11 +1,11 @@
 <seciton class="admin-dashboard">
 	<div class="col-md-2">
 		<div class="list-group">
-		  <a href="#" class="list-group-item active">
+		  <a href="/admin" class="list-group-item active">
 		    Dashboard
 		  </a>
-		  <a href="#" class="list-group-item">Content</a>
-		  <a href="#" class="list-group-item">Settings</a>
+		  <a href="/admin/content" class="list-group-item">Content</a>
+		  <a href="/admin/settings" class="list-group-item">Settings</a>
 		</div>
 	</div>
 	<div class="col-md-10">
