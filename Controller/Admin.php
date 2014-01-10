@@ -4,6 +4,7 @@ class AdminController extends Controller{
 	public $login = 1;
 	public function pre_init(){
 		$this->asset('css', 'bootstrap.min.css', true);
+		$this->asset('css', 'template.css', true);
 	}
 	public function init(){
 		$this->render('admin');
