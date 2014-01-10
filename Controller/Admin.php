@@ -27,5 +27,6 @@ class AdminController extends Controller{
 		}
 	}
 	public function init(){
+		$this->render('dashboard', true);
 	}
 }
