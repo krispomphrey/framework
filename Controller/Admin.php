@@ -27,6 +27,12 @@ class AdminController extends Controller{
 		}
 	}
 	public function init(){
-		$this->render('dashboard', true);
+		switch($this->router->action[1]){
+			case 'content': $this->render('content', true);
+			case 'pages': $this->render('users', true);
+			case 'users': $this->render('users', true);
+			case 'settings': $this->render('settings', true);
+			default: $this->render('dashboard', true);
+		}
 	}
 }
