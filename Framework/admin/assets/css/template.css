@@ -14,7 +14,7 @@ input{
 .welcome-back{
 	border: 1px solid #f4f4f4;
 	background: #fafafa;
-	padding: 10px;
+	padding: 5px;
 	border-radius: 4px;
 	color: #444;
 	text-transform: uppercase;
@@ -22,10 +22,16 @@ input{
 	margin: 15px 0 0;
 }
 .welcome-back .user-name{
+	margin-left: 5px;
+	line-height: 38px;
 	font-weight: bold;
 }
+.welcome-back .user-image{
+	border-radius: 4px;
+	border: 1px solid #e1e1e1;
+}
 .admin-bar-img{
-	width: 32px;
+	width: 38px;
 }
 .admin-dashbaord{
 	clear: both;
