@@ -12,10 +12,20 @@ input{
 	font-weight: 300;
 }
 .welcome-back{
+	border: 1px solid #f4f4f4;
+	background: #fafafa;
+	padding: 10px;
+	border-radius: 4px;
 	color: #444;
 	text-transform: uppercase;
 	font-size: 14px;
-	text-align: right;
+	margin: 15px 0 0;
+}
+.welcome-back .user-name{
+	font-weight: bold;
+}
+.admin-bar-img{
+	width: 32px;
 }
 .admin-dashbaord{
 	clear: both;

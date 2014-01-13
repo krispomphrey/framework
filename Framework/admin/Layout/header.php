@@ -4,9 +4,16 @@
 		</div>
 		<div class="col-md-8">
 		</div>
-		<div class="col-md-2 welcome-back">
-			<p>Welcome back <?php echo $this->user->name; ?></p>
-			<p><a href="/logout">Logout</a></p>
+		<div class="col-md-2">
+			<div class="welcome-back clearfix">
+				<span class="user-image pull-right">
+					<?php if($this->user->image): ?>
+					<?php else: ?>
+						<img class="responsive admin-bar-img" src="/Framework/admin/assets/img/no-pic.png" />
+					<?php endif; ?>
+				</span>
+				<span class="user-name"><?php echo $this->user->name; ?></span>
+			</div>
 		</div>
 		<?php if(!empty($this->messages)): ?>
 		<div class="alerts">
