@@ -5,6 +5,7 @@
 		    Dashboard
 		  </a>
 		  <a href="/admin/content" class="list-group-item">Content</a>
+		  <a href="/admin/users" class="list-group-item">Users</a>
 		  <a href="/admin/settings" class="list-group-item">Settings</a>
 		</div>
 	</div>

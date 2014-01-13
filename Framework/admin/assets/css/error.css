@@ -1,0 +1,43 @@
+html, body{
+	background-color: #7f3a2f;
+	height: 100%;
+}
+.error-wrapper{
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+.error-wrapper .container{
+	display: table-cell;
+	height: 100%;
+	width: 100%;
+	vertical-align: middle;
+}
+.error-box{
+	float: none;
+	margin: -50px auto 0;
+}
+.error-box .panel{
+	border: 0;
+	box-shadow: 0 5px 20px #333;
+}
+.error-box input{
+	width: 100%;
+	margin-bottom: 15px;
+	font-size: 24px;
+	font-weight: 300;
+}
+.error-box button.btn{
+	width: 100%;
+}
+.error-title{
+	color: #8f645d;
+	margin: 0 auto 15px;
+	font-weight: 300;
+	font-size: 60px;
+	letter-spacing: 10px;
+	text-align: center;
+}
+h4{
+	margin: 0 0 15px;
+}

@@ -83,6 +83,10 @@ class Controller{
 		$model = $model.'Model';
 		$this->model = new $model($this->db, $this->router, $this->user);
 	}
+
+	public function incl($inc){
+		include_once("{$inc}.php");
+	}
 	public function asset($type, $file, $admin = false){
 		$path = null;
 		if($admin) $path = '/Framework/Admin';

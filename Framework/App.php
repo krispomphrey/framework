@@ -19,8 +19,18 @@ class WebApp{
 		 	if(!isset($this->router->controller) || empty($this->router->controller)){ $this->router->controller = 'Index'; }
 			$page_check = include_once(DIR_ROOT."/Controller/{$this->router->controller}.php");
 			if($page_check != 1){
-				ob_clean();
-				Router::redirect('/not-found');
+				$controller = 'Controller';
+				$control = new $controller($this->db, $this->router, $this->user);
+				$control->asset('css', 'bootstrap.min.css', true);
+				$control->asset('css', '404.css', true);
+				header('HTTP/1.0 404 Not Found');
+				if(file_exists(LAYOUT_ROOT.'404.php')){
+					$control->layout('404');
+				} else {
+					$control->incl(FW_ROOT.'static/404');
+				}
+
+				echo $control->view;
 			} else {
 				$controller = $this->router->controller.'Controller';
 				$control = new $controller($this->db, $this->router, $this->user);
@@ -39,3 +49,4 @@ define('UPLOAD_ROOT', DIR_ROOT.'/Uploads/');
 define('ADMIN_ASSETS_ROOT', DIR_ROOT.'/Framework/admin/assets/');
 define('ADMIN_VIEW_ROOT', DIR_ROOT.'/Framework/admin/View/');
 define('ADMIN_LAYOUT_ROOT', DIR_ROOT.'/Framework/admin/Layout/');
+define('FW_ROOT', DIR_ROOT.'/Framework/');
