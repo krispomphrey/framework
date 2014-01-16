@@ -1,3 +1,9 @@
+.panel-footer:after{
+	clear: both;
+	content: '';
+	display: block;
+	visibility: hidden;
+}
 input{
 	background: #FFF;
 	border-radius: 2px;
@@ -35,4 +41,13 @@ input{
 }
 .admin-dashbaord{
 	clear: both;
+}
+.panel-title{
+	color: #666;
+	font-size: 30px;
+	font-weight: 300;
+}
+.panel-footer .pagination{
+	margin: 0;
+	float: right;
 }

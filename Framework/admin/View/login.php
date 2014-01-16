@@ -1,6 +1,6 @@
 <div class="login-wrapper">
 	<div class="container">
-		<div class="col-md-4 login-box">
+		<div class="col-md-3 login-box">
 		<h1 class="login-title">FRAMEWORK</h1>
 			<div class="panel panel-default">
 				<div class="panel-heading">
