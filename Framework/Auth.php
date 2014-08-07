@@ -9,8 +9,16 @@
  * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
  */
 class Auth{
-  // An auth obj will always start with a user logged out.
+  /**
+   * Variable holds whether the current user is logged in or not.
+   * @var int
+   */
 	public $loggedin = 0;
+
+  /**
+   * Variable holds the current users ID.
+   * @var int
+   */
 	public $id = 0;
   public $name = '';
   public $username = '';

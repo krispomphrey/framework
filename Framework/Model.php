@@ -1,10 +1,9 @@
 <?php
-class Model{
+class Model extends WebApp{
 	public $table;
 	public $db;
 	public $models = array();
 	public $data;
-	private $user;
 	public $pagination;
 	public $page_break = 50;
 	public function debug($data){
@@ -13,8 +12,7 @@ class Model{
 		echo '</pre>';
 	}
 	public function __construct(){
-		$this->user = new Auth();
-		$this->db = new Database();
+		parent::__construct();
 		$this->other_models();
 		$this->init();
 	}
@@ -26,8 +24,8 @@ class Model{
 		$wf = null;
 		if(!empty($args)){
 			$wf = 'WHERE ';
-			foreach($args as $col => $arg){
-				$where[] = " $col = '$arg' ";
+			foreach($args as $arg){
+				$where[] = (($arg[4]) ? $arg[4] : 0)." {$arg[0]} {$arg[1]} '{$arg[2]}' ";
 			}
 			$wf .= implode($type, $where);
 		}

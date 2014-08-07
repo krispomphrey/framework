@@ -1,8 +1,11 @@
 <?php
 class Config{
-	public $db_host = '127.0.0.1';
-	public $db_user = 'root';
-	public $db_password = 's10052';
-	public $dbs = array('fw_data');
-	public $debug = 0;
+  public function __construct(){
+  	$this->db_host = '127.0.0.1';
+  	$this->db_user = 'root';
+  	$this->db_password = 's10052';
+  	$this->dbs = array('fw_data');
+  	$this->debug = true;
+    $this->base_url = $_SERVER['HTTP_HOST'];
+  }
 }
