@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">181</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">173</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">6</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">6</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2141383774"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-673165001"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-2141383774" class="accordion-body collapse in">
+            <div id="namespace-673165001" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -157,6 +157,7 @@
                                                     <li class="class"><a href="../classes/LoginModel.html">LoginModel</a></li>
                                                     <li class="class"><a href="../classes/Mail.html">Mail</a></li>
                                                     <li class="class"><a href="../classes/Model.html">Model</a></li>
+                                                    <li class="class"><a href="../classes/MysqliDriver.html">MysqliDriver</a></li>
                                                     <li class="class"><a href="../classes/NotFoundController.html">NotFoundController</a></li>
                                                     <li class="class"><a href="../classes/PHPMailer.html">PHPMailer</a></li>
                                                     <li class="class"><a href="../classes/phpmailerException.html">phpmailerException</a></li>
@@ -211,17 +212,15 @@ models and views to gain access to by extension.§</p>
                                                                     <a href="../classes/WebApp.html#method_incl" class="">incl()</a><br />
                                                                     <a href="../classes/WebApp.html#method_asset" class="">asset()</a><br />
                                                                     <a href="../classes/WebApp.html#method_flush_queue" class="">flush_queue()</a><br />
-                                                                    <a href="../classes/AdminModel.html#method_pending" class="">pending()</a><br />
-                                                                    <a href="../classes/AdminModel.html#method_banned" class="">banned()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <a href="../classes/Model.html#property_table" class="">$table</a><br />
-                                                                    <a href="../classes/WebApp.html#property_db" class="">$db</a><br />
-                                                                    <a href="../classes/AdminModel.html#property_models" class="">$models</a><br />
+                                                                    <a href="../classes/Model.html#property_models" class="">$models</a><br />
                                                                     <a href="../classes/Model.html#property_data" class="">$data</a><br />
                                                                     <a href="../classes/Model.html#property_pagination" class="">$pagination</a><br />
                                                                     <a href="../classes/Model.html#property_page_break" class="">$page_break</a><br />
                                                                     <a href="../classes/WebApp.html#property_config" class="">$config</a><br />
+                                                                    <a href="../classes/WebApp.html#property_db" class="">$db</a><br />
                                                                     <a href="../classes/WebApp.html#property_router" class="">$router</a><br />
                                                                     <a href="../classes/WebApp.html#property_user" class="">$user</a><br />
                                                             </section>
@@ -329,38 +328,6 @@ models and views to gain access to by extension.§</p>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="property_db" name="property_db" class="anchor"></a>
-            <article class="property">
-                <h3 class="public ">$db</h3>
-                <pre class="signature">$db : object</pre>
-                <p><em>Variable that will hold the DB connection.</em></p>
-                
-
-                                <h4>Type</h4>
-                object
-                                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                        <dl>
-                                    <dt>Inherited from</dt>
-                    <dd><a href="../classes/WebApp.html"><div class="path-wrapper">\WebApp</div></a></dd>
-                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
             <a id="property_models" name="property_models" class="anchor"></a>
             <article class="property">
                 <h3 class="public ">$models</h3>
@@ -373,6 +340,8 @@ models and views to gain access to by extension.§</p>
         <aside class="span4 detailsbar">
             <h1><i class="icon-arrow-down"></i></h1>
                         <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Model.html"><div class="path-wrapper">\Model</div></a></dd>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
@@ -484,6 +453,38 @@ models and views to gain access to by extension.§</p>
                 <h3 class="public ">$config</h3>
                 <pre class="signature">$config : object</pre>
                 <p><em>Variable that will hold the app config.</em></p>
+                
+
+                                <h4>Type</h4>
+                object
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/WebApp.html"><div class="path-wrapper">\WebApp</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_db" name="property_db" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$db</h3>
+                <pre class="signature">$db : object</pre>
+                <p><em>Variable that will hold the DB connection.</em></p>
                 
 
                                 <h4>Type</h4>
@@ -692,7 +693,7 @@ This function builds the main helper objects used by the app.</p>
             <article class="method">
                 <h3 class="public ">create()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">create( <span class="argument">$data</span>,  <span class="argument">$args</span>,  <span class="argument">$type</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">create( <span class="argument">$statement</span>,  <span class="argument">$instances</span>)</pre>
                 <p><em></em></p>
                 
 
@@ -700,17 +701,12 @@ This function builds the main helper objects used by the app.</p>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td></td>
-                                <td>$data </td>
+                                <td>$statement </td>
                                 <td></td>
                             </tr>
                                                     <tr>
                                 <td></td>
-                                <td>$args </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$type </td>
+                                <td>$instances </td>
                                 <td></td>
                             </tr>
                                             </table>
@@ -743,7 +739,7 @@ This function builds the main helper objects used by the app.</p>
             <article class="method">
                 <h3 class="public ">get()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get( <span class="argument">$args</span>,  <span class="argument">$type</span>,  <span class="argument">$order</span>,  <span class="argument">$limit</span>,  <span class="argument">$condition</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">get( <span class="argument">$statement</span>,  <span class="argument">$instances</span>)</pre>
                 <p><em></em></p>
                 
 
@@ -751,27 +747,12 @@ This function builds the main helper objects used by the app.</p>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td></td>
-                                <td>$args </td>
+                                <td>$statement </td>
                                 <td></td>
                             </tr>
                                                     <tr>
                                 <td></td>
-                                <td>$type </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$order </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$limit </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$condition </td>
+                                <td>$instances </td>
                                 <td></td>
                             </tr>
                                             </table>
@@ -804,7 +785,7 @@ This function builds the main helper objects used by the app.</p>
             <article class="method">
                 <h3 class="public ">save()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">save( <span class="argument">$data</span>,  <span class="argument">$args</span>,  <span class="argument">$type</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">save( <span class="argument">$statement</span>,  <span class="argument">$instances</span>)</pre>
                 <p><em></em></p>
                 
 
@@ -812,17 +793,12 @@ This function builds the main helper objects used by the app.</p>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td></td>
-                                <td>$data </td>
+                                <td>$statement </td>
                                 <td></td>
                             </tr>
                                                     <tr>
                                 <td></td>
-                                <td>$args </td>
-                                <td></td>
-                            </tr>
-                                                    <tr>
-                                <td></td>
-                                <td>$type </td>
+                                <td>$instances </td>
                                 <td></td>
                             </tr>
                                             </table>
@@ -855,7 +831,7 @@ This function builds the main helper objects used by the app.</p>
             <article class="method">
                 <h3 class="public ">delete()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">delete( <span class="argument">$args</span>,  <span class="argument">$type</span>)</pre>
+                <pre class="signature" style="margin-right: 54px;">delete( <span class="argument">$statement</span>,  <span class="argument">$instances</span>)</pre>
                 <p><em></em></p>
                 
 
@@ -863,12 +839,12 @@ This function builds the main helper objects used by the app.</p>
                     <table class="table table-condensed table-hover">
                                                     <tr>
                                 <td></td>
-                                <td>$args </td>
+                                <td>$statement </td>
                                 <td></td>
                             </tr>
                                                     <tr>
                                 <td></td>
-                                <td>$type </td>
+                                <td>$instances </td>
                                 <td></td>
                             </tr>
                                             </table>
@@ -1093,68 +1069,6 @@ TODO: Remove HTML from code.</p>
         </aside>
     </div>
 
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_pending" name="method_pending" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">pending()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">pending()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
-                                    <div class="row-fluid">
-        <div class="span8 content class">
-            <a id="method_banned" name="method_banned" class="anchor"></a>
-            <article class="method">
-                <h3 class="public ">banned()</h3>
-                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">banned()</pre>
-                <p><em></em></p>
-                
-
-                
-                
-                            </article>
-        </div>
-        <aside class="span4 detailsbar">
-            <h1><i class="icon-arrow-down"></i></h1>
-                                                            <dl>
-                                                                            </dl>
-            <h2>Tags</h2>
-            <table class="table table-condensed">
-                                    <tr>
-                        <th>
-                            todo
-                        </th>
-                        <td>
-                                                    </td>
-                    </tr>
-                            </table>
-        </aside>
-    </div>
-
                                                                     <div class="row-fluid">
         <div class="span8 content class">
             <a id="method_other_models" name="method_other_models" class="anchor"></a>
@@ -1237,7 +1151,7 @@ TODO: Remove HTML from code.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on August 7th, 2014 at 16:10.
+                    on August 8th, 2014 at 16:05.
                 </section>
             </section>
         </section>

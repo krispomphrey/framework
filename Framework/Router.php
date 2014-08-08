@@ -129,6 +129,3 @@ define('MODEL_ROOT', DIR_ROOT.'/Model/');
 define('LAYOUT_ROOT', DIR_ROOT.'/Layout/');
 define('CONTROLLER_ROOT', DIR_ROOT.'/Controller/');
 define('UPLOAD_ROOT', DIR_ROOT.'/Uploads/');
-
-define('ASSETS_URL', BASE_URL.'/assets/');
-define('UPLOAD_URL', BASE_URL.'/Uploads/');

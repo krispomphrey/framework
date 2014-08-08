@@ -19,8 +19,6 @@
 				</div>
 				<div class="panel-body">
 					<h4>Database errors/info:</h4>
-					<?php if(!empty($this->info)): echo $this->info; endif; ?>
-					<?php if(!empty($this->error)): echo $this->error; endif; ?>
 				</div>
 			</div>
 		</div>
