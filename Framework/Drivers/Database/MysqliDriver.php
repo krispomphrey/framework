@@ -57,11 +57,11 @@ class MysqliDriver{
    * Level up!
    */
   public function insert($data, $statement){
-    $sql = "INSERT INTO {{database}}.{{table}} {{columns}} VALUES ({{data}})";
+    $sql = "INSERT INTO {{database}}.{{table}} ({{columns}}) VALUES ({{data}})";
 
     // Check to see if specified columns.
     if($data){
-      $cols = '(';
+      $cols = '';
       $vals = '';
       $c = 0;
 
@@ -74,8 +74,6 @@ class MysqliDriver{
         }
         $c++;
       }
-
-      $cols .= ')';
     }
 
     // Replace the SQL with what has been generated above.
