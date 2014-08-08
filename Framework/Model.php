@@ -1,10 +1,8 @@
 <?php
-class Model{
+class Model extends WebApp{
 	public $table;
-	public $db;
 	public $models = array();
 	public $data;
-	private $user;
 	public $pagination;
 	public $page_break = 50;
 	public function debug($data){
@@ -13,84 +11,23 @@ class Model{
 		echo '</pre>';
 	}
 	public function __construct(){
-		$this->user = new Auth();
-		$this->db = new Database();
+		parent::__construct();
 		$this->other_models();
 		$this->init();
 	}
-	public function init(){
-
-	}
-	public function create($data, $args = array(), $type = 'OR'){
-		$cols = null;
-		$vals = null;
-		$where = array();
-		$wf = null;
-		if(!empty($args)){
-			$wf = 'WHERE ';
-			foreach($args as $col => $arg){
-				$where[] = " $col = '$arg' ";
-			}
-			$wf .= implode($type, $where);
-		}
-		foreach($data as $column => $value){
-			if(is_null($value)) $value = 0;
-			$cols[] = $column;
-			$vals[] = "'$value'";
-		}
-		$columns = implode(',', $cols);
-		$values = implode(',', $vals);
-		$this->db->update("INSERT INTO {$this->table} ({$columns}) VALUES ({$values}) {$wf}");
-	}
-	public function get($args = array(), $type = 'OR', $order = null, $limit = null, $condition = '='){
-		$where = array();
-		$wf = null;
-		if(!empty($args)){
-			$wf = 'WHERE ';
-			foreach($args as $col => $arg){
-				$where[] = " $col $condition '$arg' ";
-			}
-			$wf .= implode($type, $where);
-		}
-		$this->data = $this->db->select("SELECT * FROM {$this->table} {$wf} {$order} {$limit}");
-		//$this->debug("SELECT * FROM {$this->table} {$wf} {$order} {$limit}");
+	public function init(){ }
+	public function create($statement, $instances){ }
+	public function get($statement, $instances){
+    $statement['table'] = $this->table;
+		$this->data = $this->db->select($statement, $instances);
 		if(empty($this->data)) $this->data = false;
 	}
-	public function save($data, $args = array(), $type = 'OR'){
-		$set = null;
-		$where = array();
-		$wf = null;
-		if(!empty($args)){
-			$wf = 'WHERE ';
-			foreach($args as $col => $arg){
-				$where[] = " $col = '$arg' ";
-			}
-			$wf .= implode($type, $where);
-		}
-		foreach($data as $column => $value){
-			if(is_null($value)) $value = 0;
-			$set[] = "$column = '$value'";
-		}
-		$st = implode(', ', $set);
-		$this->db->update("UPDATE {$this->table} SET {$st} {$wf}");
-		//$this->debug("UPDATE {$this->table} SET ({$st}) {$wf}");
-	}
-	public function delete($args = array(), $type = 'OR'){
-		$where = array();
-		$wf = null;
-		if(!empty($args)){
-			$wf = 'WHERE ';
-			foreach($args as $col => $arg){
-				$where[] = " $col = '$arg' ";
-			}
-			$wf .= implode($type, $where);
-		}
-		$this->db->delete("DELETE FROM {$this->table} {$wf}");
-	}
+	public function save($statement, $instances){ }
+	public function delete($statement, $instances){ }
 	private function other_models(){
 		if(!empty($this->models)){
 			foreach($this->models as $model){
-				include_once(MODEL_ROOT."{$model}.php");
+				$this->incl(MODEL_ROOT."{$model}.php");
 				$m = $model.'Model';
 				$this->$model = new $m;
 			}

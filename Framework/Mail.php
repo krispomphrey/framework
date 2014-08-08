@@ -1,5 +1,5 @@
 <?php require_once('plugins/PHPMailer.php');
-class Mail{
+class Mail extends WebApp{
 	public $from = array('email' => 'webmaster@scottishicehockey.net', 'title' => 'Scottish Ice Hockey System');
 	public $subject = '';
 	public $message = '';
@@ -13,7 +13,6 @@ class Mail{
 	public $db;
 	public function __construct(){
 		$this->mailer = new PHPMailer();
-		$this->db = new Database();
 		$this->mailer->From = $this->from['email'];
 		$this->mailer->FromName = $this->from['title'];
 	}

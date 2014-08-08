@@ -1,30 +1,83 @@
 <?php
-require_once('Model.php');
-class Controller{
+/**
+ * Framework Parent Controller.
+ *
+ * This is the main controller that is extended by user controllers and extends
+ * the WebApp class, that sets up framework specific objects and functions.
+ * Helper functions are set up for inheritance and are used for "page" specific things.
+ *
+ * @package     Framework
+ * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
+ */
+class Controller extends WebApp{
+  /**
+   * Holds the model object that is defined for this controller.
+   * @var object
+   */
 	public $model;
-	public $view;
+
+  /**
+   * Variable holds the current layout to use when rendering the page.
+   * This defaults to 'index'.
+   * @var string
+   */
 	public $layout = 'index';
-	public $router;
-	public $user;
+
+  /**
+   * A holder array for a queue of frontend assets (css/js) located in the assets folder.
+   * @var array
+   */
 	public $queue = array();
+
+  /**
+   * Holds the view that will be passed to the layout.
+   * @var object
+   */
+  public $view;
+
+  /**
+   * Holds the whether we are in admin or not in the layout.
+   * @var boolean
+   */
+  public $admin;
+
+  /**
+   * An array of messages to be output to the frontend.
+   * @var array
+   */
 	public $messages = array();
-	// Protect the controller (i.e. needs login)
-	public $protected = 0;
-	public $login = 0;
-	// An array of ALLOW or DENY access levels
+
+	/**
+   * Variable determines whether a controller is protected from logged out users.
+   * This defaults to false.
+   * @var boolean
+   */
+	public $protected = false;
+
+  /**
+   * A variable to determine whether to show a login on this page (only when $protected is true).
+   * This defaults to false.
+   * @var boolean
+   */
+	public $login = false;
+
+  /**
+   * Auth variable will hold allow and deny for each controller to set permissions based access
+   * (when $protected is true).
+   * @var boolean
+   */
 	public $auth = array();
-	public function debug($data){
-		$config = new Config();
-		if($config->debug == 1){
-			echo '<pre>';
-			var_dump($data);
-			echo '</pre>';
-		}
-	}
-	public function __construct(&$db, &$router, &$auth){
-		$this->db = &$db;
-		$this->router = &$router;
-		$this->user = &$auth;
+
+  /**
+   * Implements __construct();
+   *
+   * The main Controller constructor.
+   *
+   * This will invoke WebApp::__construct() so we can get access to the database,
+   * current user and router from within the controller.
+   */
+	public function __construct(){
+    parent::__construct();
 		$this->pre_init();
 		if($this->auth()){
 			$this->init();
@@ -41,10 +94,29 @@ class Controller{
 			}
 		}
 	}
+
+  /**
+   * Implements pre_init();
+   *
+   * pre_init is fired before a page is rendered.
+   * It is generally used to attach assets.
+   */
 	public function pre_init(){}
+
+  /**
+   * Implements init();
+   *
+   * Fired when a controller is ready.
+   */
 	public function init(){}
+
+  /**
+   * Implements auth();
+   *
+   * Function to check whether current user is worthy of accessing the controller.
+   */
 	public function auth(){
-		if(isset($this->protected) && $this->protected == 1 && $this->user->loggedin == 0){
+		if(isset($this->protected) && $this->protected && $this->user->loggedin == 0){
 			if(!empty($this->auth) && is_array($this->auth)){
 				foreach($this->auth as $type => $acls){
 					if(in_array($this->user->acl, $acls)){
@@ -63,45 +135,63 @@ class Controller{
 			return true;
 		}
 	}
+
+  /**
+   * Implements render();
+   *
+   * Render is the function that controls rendering a layout (which in turn
+   * will render a view inside a layout).
+   *
+   * @param string  $view    Assigned to the object $this->view so that it can be accessed in the layout.
+   * @param boolean $admin   Whether to use the admin specific layouts.
+   */
 	public function render($view, $admin = false){
+    $this->view = $view;
+    $this->admin = $admin;
 		if($admin) $path = ADMIN_LAYOUT_ROOT;
 		else $path = LAYOUT_ROOT;
-		include_once($path."{$this->layout}.php");
+		$this->incl($path.$this->layout);
 	}
+
+  /**
+   * Implements view();
+   *
+   * Gets the view file and includes it where needed.
+   *
+   * @param string  $view    Holds the view file (minus php) to include.
+   * @param boolean $admin   Whether to use the admin specific view.
+   */
 	public function view($view, $admin = false){
 		if($admin) $path = ADMIN_VIEW_ROOT;
 		else $path = VIEW_ROOT;
-		include_once($path."{$view}.php");
+		$this->incl($path.$view);
 	}
+
+  /**
+   * Implements layout();
+   *
+   * Includes the layout file defined.
+   *
+   * @param string  $layout    A string of the layout to be included.
+   * @param boolean $admin   Whether to use the admin specific layouts.
+   */
 	public function layout($layout, $admin = false){
 		if($admin) $path = ADMIN_LAYOUT_ROOT;
 		else $path = LAYOUT_ROOT;
-		include_once($path."{$layout}.php");
-	}
-	public function model($model){
-		include_once(MODEL_ROOT."{$model}.php");
-		$model = $model.'Model';
-		$this->model = new $model($this->db, $this->router, $this->user);
+		$this->incl($path.$layout);
 	}
 
-	public function incl($inc){
-		include_once("{$inc}.php");
-	}
-	public function asset($type, $file, $admin = false){
-		$path = null;
-		if($admin) $path = '/Framework/Admin';
-		$this->queue['css'][] = "$path/assets/$type/$file";
-	}
-	public function flush_queue(){
-		if(!empty($this->queue) && is_array($this->queue)){
-			foreach($this->queue as $key => $value){
-				foreach($value as $q){
-					switch($key){
-						case 'css': echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"$q\" />\n"; break;
-						case 'js': echo "<script src=\"$q\"></script>\n"; break;
-					}
-				}
-			}
-		}
+  /**
+   * Implements model();
+   *
+   * Includes the model file defined.
+   * Sets up the model in the context.
+   *
+   * @param string  $model    String holds what model to include and initialise.
+   */
+	public function model($model){
+		$this->incl(MODEL_ROOT.$model);
+		$model = $model.'Model';
+		$this->model = new $model();
 	}
 }

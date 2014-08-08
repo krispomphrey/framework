@@ -6,6 +6,6 @@
 		<meta name="viewport" content="width=device-width; initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 	</head>
 	<body>
-		<?php $this->view($view, $admin); ?>
+		<?php $this->view($this->view, $this->admin); ?>
 	</body>
 </html>
