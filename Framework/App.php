@@ -5,6 +5,7 @@ require_once('Database.php');
 require_once('Router.php');
 require_once('Auth.php');
 require_once('Mail.php');
+require_once('Logger.php');
 require_once('Controller.php');
 require_once('Model.php');
 
@@ -36,6 +37,12 @@ class WebApp{
 	public $router;
 
   /**
+   * Variable that will hold the logger.
+   * @var object
+   */
+  public $log;
+
+  /**
    * Variable that will hold the user auth.
    * @var object
    */
@@ -55,6 +62,7 @@ class WebApp{
 		$this->router = new Router();
 		$this->user = new Auth();
     $this->config = new Config();
+    $this->log = new Logger();
 	}
 
   /**
