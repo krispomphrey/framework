@@ -94,8 +94,6 @@ class Controller extends WebApp{
 				$this->render('no-access');
 			}
 		}
-    $this->debug($this->user);
-    $this->user->logout();
 	}
 
   /**
@@ -119,7 +117,6 @@ class Controller extends WebApp{
    * Function to check whether current user is worthy of accessing the controller.
    */
 	public function auth(){
-    $this->debug($this->user->loggedin);
 		if(isset($this->protected) && $this->protected){
 			if(!empty($this->auth) && is_array($this->auth)){
 				foreach($this->auth as $type => $acls){
