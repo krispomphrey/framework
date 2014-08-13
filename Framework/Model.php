@@ -5,11 +5,6 @@ class Model extends WebApp{
 	public $data;
 	public $pagination;
 	public $page_break = 50;
-	public function debug($data){
-		echo '<pre>';
-		var_dump($data);
-		echo '</pre>';
-	}
 	public function __construct(){
 		parent::__construct();
 		$this->other_models();

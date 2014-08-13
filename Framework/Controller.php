@@ -253,13 +253,13 @@ class Controller extends WebApp{
                   'admin' => $user->admin,
                   'db' => $db
                 ));
+                break;
               } else {
                 $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
               }
             } else {
               $this->messages[] = array('type' => 'danger', 'notice' => 'Username is incorrect.');
             }
-            break;
           }
         }
       }
