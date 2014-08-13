@@ -10,7 +10,9 @@ require_once('Controller.php');
 require_once('Model.php');
 
 /**
- * Frameworks WebApp Class.
+ * Framework.
+ *
+ * @version 0.1.1
  *
  * The base class that holds all the objects (and keys) for the controllers,
  * models and views to gain access to by extension.§
