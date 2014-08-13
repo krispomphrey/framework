@@ -110,12 +110,13 @@ class Auth{
     }
   }
 
-  public function generate_password($password){
-    if($password){
-      return password_hash($password, PASSWORD_BCRYPT, array('cost' => 11));
-    }
-  }
-
+  /**
+   * Implements check_password();
+   *
+   * Function will check a plain text password against a hashed password if both are present.
+   *
+   * @return boolean
+   */
   public function check_password($password, $hashed){
     if($password && $hashed){
       return password_verify($password, $hashed);
@@ -124,6 +125,24 @@ class Auth{
     }
   }
 
+  private function generate_password($password){
+    if($password){
+      return password_hash($password, PASSWORD_BCRYPT, array('cost' => 11));
+    }
+  }
+
+  /**
+   * Implements validate();
+   *
+   * Simply validates input to make sure that it conforms to standards.
+   * The regex pattern allows the following:
+   * - Alphanumeric Characters
+   * - Hyphens
+   * - Underscores
+   * - Periods
+   *
+   * @return boolean
+   */
   private function validate($data){
     if(preg_match('/[a-z._\-0-9]/i', $data)){
       return true;

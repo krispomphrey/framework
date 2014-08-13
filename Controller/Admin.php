@@ -17,6 +17,6 @@ class AdminController extends Controller{
   			case 'settings': $this->render('settings', true);
   			default: $this->render('dashboard', true);
   		}
-  	}
+  	} else $this->render('dashboard', true);
   }
 }

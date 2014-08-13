@@ -115,11 +115,19 @@ class Controller extends WebApp{
    * Implements auth();
    *
    * Function to check whether current user is worthy of accessing the controller.
+   * Will check for the existance of allow and deny arrays.  If there, then the users
+   * table will need to be present (to allow login).
+   *
+   * @return boolean
    */
 	public function auth(){
+    // Check to see if the controller is protected.
 		if(isset($this->protected) && $this->protected){
+      // Check to see if there are any ALLOW or DENY arrays present.
 			if(!empty($this->auth) && is_array($this->auth)){
+        // Loop through the allowed and denied ACLS (requires users table)
 				foreach($this->auth as $type => $acls){
+          // Check to see if the user has an acl.
 					if(isset($this->user->session['fw']['acl']) && in_array($this->user->session['fw']['acl'], $acls)){
 						switch($type){
 							case 'allow': return true; break;
@@ -130,6 +138,8 @@ class Controller extends WebApp{
 					}
 				}
 			} elseif(isset($this->user->loggedin) && $this->user->loggedin){
+        // If there are no allow/deny arrays, but the controller is protected, check to see
+        // if the current user is logged in.
 				return true;
 			} else{
         return false;
@@ -206,7 +216,7 @@ class Controller extends WebApp{
    *
    * @param string  $data    $_POST sent through from constructor.
    */
-  public function check_for_login($data){
+  private function check_for_login($data){
     if(isset($data['fw']['username'])){
       $this->model('Login');
       $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
@@ -215,7 +225,14 @@ class Controller extends WebApp{
         $user = array_pop($user);
         if(!empty($user)){
           if($this->user->check_password($data['fw']['password'], $user->password)){
-            $this->user->login($user);
+            $this->user->login(array(
+              'id' => $user->id,
+              'name' => $user->name,
+              'email' => $user->email,
+              'username' => $user->username,
+              'acl' => $user->acl,
+              'admin' => $user->admin,
+            ));
           } else {
             $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
           }

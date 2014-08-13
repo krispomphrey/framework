@@ -100,8 +100,7 @@ class Router{
         }
       }
 			$this->controller = $control;
-			unset($parts[0]);
-		 	$this->action = $parts;
+		 	$this->action = array_map('strtolower', $parts);
 		} else {
 			$this->controller = 'Index';
 		}
