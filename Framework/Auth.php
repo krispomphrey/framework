@@ -30,7 +30,9 @@ class Auth{
 	public function __construct(){
     if(!$_SESSION) session_start();
     $this->session = &$_SESSION;
-    $this->loggedin = &$_SESSION['fw']['loggedin'];
+    if($this->session['fw']['loggedin'] && $this->session['fw']['loggedin'] == 1){
+      $this->loggedin = 1;
+    }
   }
 
   public function login($data){
@@ -38,6 +40,7 @@ class Auth{
       foreach($data as $key => $value){
         $this->session['fw'][$key] = $value;
       }
+      $this->loggedin = 1;
     }
   }
 
@@ -48,7 +51,19 @@ class Auth{
 
   public function create_user($data){
     if($data){
-      return password_hash($data['password']);
+      return array(
+        'crdate' => time(),
+        'username' => $data['username'],
+        'password' => password_hash($data['password'], PASSWORD_BCRYPT)
+      );
+    }
+  }
+
+  public function check_password($password, $hashed){
+    if($password && $hashed){
+      return password_verify($password, $hased);
+    } else {
+      return false;
     }
   }
 
