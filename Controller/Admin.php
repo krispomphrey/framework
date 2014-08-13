@@ -1,8 +1,8 @@
 <?php
 class AdminController extends Controller{
 	public $models = array('login');
-	public $protected = 1;
-	public $login = 1;
+	public $protected = 0;
+	public $login = 0;
 	public $auth = array(
 		'allow' => array(99)
 	);

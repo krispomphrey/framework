@@ -18,9 +18,7 @@ class Model{
 		$this->other_models();
 		$this->init();
 	}
-	public function init(){
-
-	}
+	public function init(){ }
 	public function create($data, $args = array(), $type = 'OR'){
 		$cols = null;
 		$vals = null;
