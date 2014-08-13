@@ -126,7 +126,12 @@ class Model extends WebApp{
       } else {
         $db = 0;
       }
-      $statement['limit'] = array($this->pagination[$db]['paginate'], $this->page_break);
+      if(!isset($this->pagination[$db]['paginate'])){
+        $start = 0;
+      } else {
+        $start = $this->pagination[$db]['paginate'];
+      }
+      $statement['limit'] = array($start, $this->page_break);
     }
 		$this->data = $this->db->select($statement,  $instances = null);
     return true;

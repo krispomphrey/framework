@@ -251,7 +251,6 @@ class Controller extends WebApp{
                   'email' => $user->email,
                   'username' => $user->username,
                   'acl' => $user->acl,
-                  'admin' => $user->admin,
                   'db' => $db,
                   'loggedin' => 1
                 ));
