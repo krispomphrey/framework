@@ -9,15 +9,16 @@
  */
 class Config{
   public function __construct(){
-  	$this->dbs = array(
+  	// An example of how to register a database.
+    /* $this->dbs = array(
       'fw_data' => array(
         'type' => 'mysqli',
-        'user' => 'root',
-        'password' => 's10052',
+        'user' => 'DB_USER',
+        'password' => 'DB_PASSWORD',
         'host' => 'localhost',
         'prefix' => ''
       )
-    );
+    ); */
   	$this->debug = true;
     $this->base_url = $_SERVER['HTTP_HOST'];
   }

@@ -1,6 +1,14 @@
 <?php
+/**
+ * Admin Controller.
+ *
+ * The controller for the Admin page.  This provides a good starting point for
+ * a CMS like experience.
+ *
+ * @package     Framework
+ * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
+ */
 class AdminController extends Controller{
-	public $models = array('login');
 	public $protected = true;
 	public $login = true;
 	public $auth = array('allow' => array(99));

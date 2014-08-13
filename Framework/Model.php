@@ -60,8 +60,7 @@ class Model extends WebApp{
 
     // Fire the pagination (if there is a limit present) method so we can pull in correct details when limiting calls.
     if($this->page_break){
-      $db = null;
-      $this->pagination($this->user->session['fw']['db']);
+      $this->pagination();
     }
 
     // Fire init hook.
@@ -111,11 +110,10 @@ class Model extends WebApp{
   }
 
   /**
-   * Implements create();
+   * Implements get();
    *
    * Function to pull out the data form the database.
    *
-   * @param array   $data         An array of data to insert in FIELD => VALUE array.
    * @param array   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
    * @return mixed
@@ -123,12 +121,65 @@ class Model extends WebApp{
 	public function get($statement = array(),  $instances = null){
     $statement['table'] = $this->table;
     if($this->pagination){
-      $statement['limit'] = array($this->pagination['paginate'], $this->page_break);
+      if(isset($this->user->session['fw']['db'])){
+        $db = $this->user->session['fw']['db'];
+      } else {
+        $db = 0;
+      }
+      $statement['limit'] = array($this->pagination[$db]['paginate'], $this->page_break);
     }
 		$this->data = $this->db->select($statement,  $instances = null);
+    return true;
 	}
-	public function save($statement,  $instances = null){ }
-	public function delete($statement,  $instances = null){ }
+
+  /**
+   * Implements save();
+   *
+   * Function to save already existing data back into the database.
+   *
+   * @param array   $statement    The statement to be passed to the driver.
+   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return mixed
+   */
+	public function save($data, $statement,  $instances = null){
+    $statement['table'] = $this->table;
+
+    // Add the current time to the data.
+    $data['crdate'] = time();
+    $data['uddate'] = time();
+    // Add the current user id to the data.
+    $data['created_by'] = $this->user->session['fw']['id'];
+    $data['updated_by'] = $this->user->session['fw']['id'];
+
+    // Pass the amended variables to the database controller and return it.
+    return $this->db->update($data, $statement, $instances = null);
+  }
+
+  /**
+   * Implements delete();
+   *
+   * Remove a record from the database. Record ID must be present in arguments.
+   *
+   * @param array   $statement    The statement to be passed to the driver.
+   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return mixed
+   */
+	public function delete($statement,  $instances = null){
+    // Make sure we can't delete anything through the model that doesn't have an ID.
+    // Stops the ability to delete everything by mistake.
+    $statement['table'] = $this->table;
+    if(!isset($statement['args']) || $statement['args'][0][0] != 'id'){
+      return false;
+    } else return $this->db->delete($statement, $instances);
+  }
+
+  /**
+   * Implements other_models();
+   *
+   * This function sets up other models that will be used within this instance.
+   *
+   * @return void
+   */
 	private function other_models(){
 		if(!empty($this->models)){
 			foreach($this->models as $model){
@@ -138,6 +189,14 @@ class Model extends WebApp{
 			}
 		}
 	}
+
+  /**
+   * Implements pagination();
+   *
+   * This is the pager function that will calculate splits and pages and limits for the database call.
+   *
+   * @return void
+   */
 	public function pagination($instances = null){
 		if(isset($_GET['page'])){
 			$page = $_GET['page'];
@@ -146,15 +205,15 @@ class Model extends WebApp{
 			$page = 1;
 			$paginate = 0;
 		}
-		$results = $this->db->select(array('table' => $this->table, 'cols' => array('count(id)')), $instances);
-    $count = count($results);
-		$pagination = array(
-			'count' => $count,
-			'pages' => ceil($count/$this->page_break),
-			'current' => $page,
-			'paginate' => $paginate
-		);
-		$this->pagination = $pagination;
-
+		$results = $this->db->select(array('table' => $this->table, 'cols' => array('id')));
+    foreach($results as $key => $db){
+      $count = count($results);
+      $this->pagination[$key] = array(
+        'count' => $count,
+        'pages' => ceil($count/$this->page_break),
+        'current' => $page,
+        'paginate' => $paginate
+      );
+    }
 	}
 }

@@ -1,3 +1,4 @@
-<?php class AdminModel extends Model{
+<?php
+class AdminModel extends Model{
 	public function init(){ }
 }

@@ -50,6 +50,7 @@ class MysqliDriver{
   public function query($statement){
     $results = $this->client->query($statement);
     var_dump($statement);
+    var_dump($results);
     return $results;
   }
 
@@ -85,7 +86,7 @@ class MysqliDriver{
       $sql
     );
     $this->query($sql);
-    if($this->client->affected_rows() >= 0){
+    if($this->client->affected_rows >= 0){
       return true;
     } else {
       return false;
@@ -176,8 +177,12 @@ class MysqliDriver{
 
     $results = $this->query($sql);
 
-    while($row = $results->fetch_object()){
-      $results_objects[] = $row;
+    if(is_object($results)){
+      while($row = $results->fetch_object()){
+        $results_objects[] = $row;
+      }
+    } else {
+      $results_objects = false;
     }
 
     return $results_objects;
@@ -202,7 +207,7 @@ class MysqliDriver{
         $c = 0;
         $data_string = '';
         foreach($data as $field => $value){
-          $data_string .= $this->client->escape_string($field) .' = '. $this->client->escape_string($value);
+          $data_string .= $this->client->escape_string($field) ." = '". $this->client->escape_string($value)."'";
           if($c < count($data)-1){
             $data_string .= ', ';
           }
@@ -237,7 +242,7 @@ class MysqliDriver{
     );
 
     $this->query($sql);
-    if($this->client->affected_rows() >= 0){
+    if($this->client->affected_rows >= 0){
       return true;
     } else {
       return false;
@@ -251,7 +256,7 @@ class MysqliDriver{
    */
   public function delete($statement){
     $where = '';
-    $sql = "DELETE FROM {{database}}.{{table}} WHERE {{where}}";
+    $sql = "DELETE FROM {{database}}.{{table}} {{where}}";
     if(is_array($statement)){
       // Grab the elements in the array.
       $skeys = array_keys($statement);
@@ -275,15 +280,16 @@ class MysqliDriver{
       $where = $statement;
     }
 
-     // Replace the SQL with what has been generated above.
+    // Replace the SQL with what has been generated above.
     $sql = str_replace(
       array('{{database}}', '{{table}}', '{{where}}'),
-      array($this->db, $this->config['prefix'].$statement['table'], $data_string, $where),
+      array($this->db, $this->config['prefix'].$statement['table'], $where),
       $sql
     );
 
     $this->query($sql);
-    if($this->client->affected_rows() >= 0){
+
+    if($this->client->affected_rows >= 0){
       return true;
     } else {
       return false;
