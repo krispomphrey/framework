@@ -106,6 +106,7 @@ class Controller extends WebApp{
 				$this->render('no-access');
 			}
 		}
+    $this->user->logout();
 	}
 
   /**
@@ -229,6 +230,7 @@ class Controller extends WebApp{
    * @param string  $data    $_POST sent through from constructor.
    */
   private function check_for_login($data){
+    $this->debug($data);
     if(!$this->user->loggedin){
       // Check to see if the array fw[] is there which is used on all login forms.
       if(isset($data['fw']['username'])){
@@ -237,6 +239,8 @@ class Controller extends WebApp{
 
         // Get the correct data from the database.
         $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
+
+        $this->debug($this->model->data);
 
         // If there is a response.
         if($this->model->data){

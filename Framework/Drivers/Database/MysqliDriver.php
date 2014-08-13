@@ -49,6 +49,7 @@ class MysqliDriver{
    */
   public function query($statement){
     $results = $this->client->query($statement);
+    var_dump($statement);
     return $results;
   }
 
@@ -150,6 +151,16 @@ class MysqliDriver{
         } else {
           // A string of conditions.
           $where .= $statement['args'];
+        }
+      }
+      if(in_array('limit', $skeys)){
+        $where .= ' LIMIT ';
+        // Check that there are multiple columsn in an array.
+        if(is_array($statement['limit'])){
+          $where .= $this->client->escape_string($statement['limit'][0]).','.$this->client->escape_string($statement['limit'][1]);
+        } else {
+          // A string of conditions.
+          $where .= $statement['limit'];
         }
       }
     } else {
@@ -294,7 +305,7 @@ class MysqliDriver{
    * You can kill a connection.  You can't kill an idea.
    */
   public function destroy(){
-    $this->client->destroy();
+    $this->client->close();
   }
 
   /**

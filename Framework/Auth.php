@@ -41,6 +41,7 @@ class Auth{
       // Switch whether the user is logged in or not.
       switch($this->session['fw']['loggedin']){
         case false:
+          $this->session['fw']['id'] = -1;
           // Set the logged in as false.
           $this->session['fw']['loggedin'] = false;
           // Give a logged out user a nice name.
@@ -52,6 +53,7 @@ class Auth{
           break;
       }
     } else {
+      $this->session['fw']['id'] = -1;
       // Set the logged in to false as default.
       $this->session['fw']['loggedin'] = false;
     }
@@ -100,6 +102,7 @@ class Auth{
     unset($this->session['fw']);
 
     // Switch the name
+    $this->session['fw']['id'] = -1;
     $this->session['fw']['name'] = 'Guest';
   }
 
@@ -122,6 +125,9 @@ class Auth{
       if($this->validate($data['username']) && $this->validate($data['password'])){
         return array(
           'crdate' => time(),
+          'uddate' => time(),
+          'created_by' => $this->session['fw']['id'],
+          'updated_by' => $this->session['fw']['id'],
           'username' => $data['username'],
           'password' => $this->generate_password($data['password'])
         );

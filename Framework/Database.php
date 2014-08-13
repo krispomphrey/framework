@@ -60,6 +60,18 @@ class Database{
 	}
 
   /**
+   * Implements __construct();
+   *
+   * The main Database constructor.  This will run through the list of databases
+   * (if any) in the config and create instances available at $db->dbs['DB_NAME'].
+   *
+   * @return void
+   */
+  public function __destruct(){
+    $this->destroy();
+  }
+
+  /**
    * Implements query();
    *
    * A generic query wrapper that can be used to pass a statement to the driver.
@@ -90,7 +102,7 @@ class Database{
    * Create something new.
    *
    * @param array   $data         An array of data to insert in FIELD => VALUE array.
-   * @param mixed   $statement    The statement to be passed to the driver.
+   * @param array   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
    * @return void/mixed
    */
@@ -139,7 +151,7 @@ class Database{
    * Level up!
    *
    * @param array   $data         An array of data to update in FIELD => VALUE array.
-   * @param mixed   $statement    The statement to be passed to the driver.
+   * @param array   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
    * @return void
    */
@@ -162,7 +174,7 @@ class Database{
    *
    * Content can no longer be allowed to exist.
    *
-   * @param mixed   $statement    The statement to be passed to the driver.
+   * @param array   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
    * @return void/mixed
    */
