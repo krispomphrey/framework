@@ -132,7 +132,7 @@ class WebApp{
    */
   public function asset($type, $file, $admin = false){
     $path = null;
-    if($admin) $path = '/Framework/Admin';
+    if($admin) $path = '/Framework/admin';
     $this->queue[$type][] = "$path/assets/$type/$file";
   }
 
