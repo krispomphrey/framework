@@ -1,8 +1,25 @@
 <?php
+/**
+ * Framework Configuration.
+ *
+ * All the configuration for the framework is held here.
+ *
+ * @package: Framework
+ * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
+ */
 class Config{
-	public $db_host = '127.0.0.1';
-	public $db_user = 'root';
-	public $db_password = 'supermassive';
-	public $dbs = array('fw_data');
-	public $debug = 0;
+  public function __construct(){
+  	// An example of how to register a database.
+    /* $this->dbs = array(
+      'fw_data' => array(
+        'type' => 'mysqli',
+        'user' => 'DB_USER',
+        'password' => 'DB_PASSWORD',
+        'host' => 'localhost',
+        'prefix' => ''
+      )
+    ); */
+  	$this->debug = true;
+    $this->base_url = $_SERVER['HTTP_HOST'];
+  }
 }

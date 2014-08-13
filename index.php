@@ -11,9 +11,11 @@
 // Define the directory root of the site for use through the site.
 define('DIR_ROOT', getcwd());
 
-// Pull in the settings and our App class
-require_once('Config/settings.php');
+// Make sure Framework is ready.
 require_once('Framework/App.php');
 
 // Initialise the app
-$app = new WebApp(); ?>
+$app = new WebApp();
+
+// Give us an output from the controller.
+$app->render_page(); ?>

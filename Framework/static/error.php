@@ -8,24 +8,28 @@
 	</head>
 	<body>
 		<div class="error-wrapper">
-	<div class="container">
-		<div class="col-md-7 error-box">
-		<h1 class="error-title">FRAMEWORK</h1>
-			<div class="panel panel-danger">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						Whoa, we have a problem...
-					</h4>
-				</div>
-				<div class="panel-body">
-					<h4>Database errors/info:</h4>
-					<?php if(!empty($this->info)): echo $this->info; endif; ?>
-					<?php if(!empty($this->error)): echo $this->error; endif; ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
+    	<div class="container">
+    		<div class="col-md-7 error-box">
+    		<h1 class="error-title">FRAMEWORK</h1>
+    			<div class="panel panel-danger">
+    				<div class="panel-heading">
+    					<h4 class="panel-title">
+    						Whoa, we have a problem...
+    					</h4>
+    				</div>
+    				<div class="panel-body">
+    					<h4>Database errors/info:</h4>
+              <?php if(is_array($this->client->error) || is_object($this->client->error)): ?>
+                <?php foreach($this->client->error as $error): ?>
+                  <?php echo $error; ?>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <?php echo $this->client->error; ?>
+              <?php endif; ?>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
 	</body>
 </html>

@@ -1,0 +1,59 @@
+<?php
+/**
+ * Framework Parent Model.
+ *
+ * This is the main model that is extended by user models and extends
+ * the WebApp class, that sets up framework specific objects and functions.
+ * Helper functions are set up for inheritance and are used for "data" specific things.
+ *
+ * @package     Framework
+ * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
+ */
+class Model extends WebApp{
+	public $table;
+	public $models = array();
+	public $data;
+	public $pagination;
+	public $page_break = 50;
+	public function __construct(){
+		parent::__construct();
+		$this->other_models();
+		$this->init();
+	}
+	public function init(){ }
+	public function create($statement, $instances = null){ }
+	public function get($statement,  $instances = null){
+    $statement['table'] = $this->table;
+		$this->data = $this->db->select($statement,  $instances = null);
+		if(empty($this->data)) $this->data = false;
+	}
+	public function save($statement,  $instances = null){ }
+	public function delete($statement,  $instances = null){ }
+	private function other_models(){
+		if(!empty($this->models)){
+			foreach($this->models as $model){
+				$this->incl(MODEL_ROOT."{$model}.php");
+				$m = $model.'Model';
+				$this->$model = new $m;
+			}
+		}
+	}
+	public function pagination($where = null){
+		if(isset($_GET['page'])){
+			$page = $_GET['page'];
+			$paginate = $this->page_break*($page-1);
+		} else {
+			$page = 1;
+			$paginate = 0;
+		}
+		$count = $this->db->select("SELECT count(id) FROM {$this->table} {$where}", false);
+		$pagination = array(
+			'count' => $count[0]['count(id)'],
+			'pages' => ceil($count[0]['count(id)']/$this->page_break),
+			'current' => $page,
+			'paginate' => $paginate
+		);
+		$this->pagination = $pagination;
+	}
+}
+
