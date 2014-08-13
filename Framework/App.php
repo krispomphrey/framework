@@ -46,6 +46,8 @@ class WebApp{
    *
    * The main WebApp constructor.
    * This function builds the main helper objects used by the app.
+   *
+   * @return void
    */
 	public function __construct(){
     // Assign helpers to variables.
@@ -61,12 +63,14 @@ class WebApp{
    * Function to output debug in a cleaner format if debug is switched on in the config.
    *
    * @param mixed   $data   The data to be output to the page.
+   * @return void
    */
   public function debug($data){
+    // Allow prettier output of var_dump.
     if($this->config->debug){
-      echo '<pre>';
+      print_r('<pre>');
       var_dump($data);
-      echo '</pre>';
+      print_r('</pre>');
     }
   }
 
@@ -80,7 +84,7 @@ class WebApp{
    *
    * 404 happens here.
    *
-   * @todo user specified paths from admin page.
+   * @return void
    */
 	public function render_page(){
     // Make sure that the path isn't in the ignore array (i.e. assets);
@@ -97,13 +101,18 @@ class WebApp{
         // Add our bootstrap and 404 css files for correct styling.
 				$this->asset('css', 'bootstrap.min.css', true);
 				$this->asset('css', '404.css', true);
+
+        // Set the header to be 404.
 				$this->router->header('HTTP/1.0 404 Not Found');
+
+        // Check if there is a custom 404 page, or use the stock one.
 				if(file_exists(LAYOUT_ROOT.'404.php')){
 					$control->layout('404');
 				} else {
 					$this->incl(FW_ROOT.'static/404');
 				}
 			} else {
+        // Create the new controller and invoke it.
 				$controller = $this->router->controller.'Controller';
 				$control = new $controller();
 			}
@@ -116,8 +125,10 @@ class WebApp{
    * Include a custom php file (minus .php).
    *
    * @param string  $inc  The asset to include minus the .php
+   * @return int/boolean  Will return 1 or false.
    */
   public function incl($inc){
+    // Make sure the file exists before including it.
     if(file_exists("{$inc}.php")){
       return include_once("{$inc}.php");
     } else {
@@ -133,20 +144,24 @@ class WebApp{
    * @param string  $type    The type of asset to include ('css' or 'js').
    * @param string  $file    The file to include.  This file should be available in the assets folder, but can be a subfolder.
    * @param boolean $admin   Whether to use an admin specific asset.
+   * @return void
    */
   public function asset($type, $file, $admin = false){
     $path = null;
+    // If we are looking for admin assets.
     if($admin) $path = '/Framework/admin';
     $this->queue[$type][] = "$path/assets/$type/$file";
   }
 
   /**
-   * Implements flush_queue();
+   * Implements flush_assets();
    *
    * Echos everything in the queue (js/css).
-   * TODO: Remove HTML from code.
+   *
+   * @return void
    */
-  public function flush_queue(){
+  public function flush_assets(){
+    // If there is anything in the queue.
     if(!empty($this->queue) && is_array($this->queue)){
       foreach($this->queue as $key => $value){
         foreach($value as $q){

@@ -75,22 +75,34 @@ class Controller extends WebApp{
    *
    * This will invoke WebApp::__construct() so we can get access to the database,
    * current user and router from within the controller.
+   *
+   * @return void
    */
 	public function __construct(){
+    // Call the App constructor to get access to users, databases etc.
     parent::__construct();
+
+    // Call the pre_init hook form the children.
 		$this->pre_init();
+
+    // If there is post data, check to see if we are logging in.
     if($_POST) $this->check_for_login($_POST);
+
+    // Run the request through the authentication method to see if it's needed.
 		if($this->auth()){
+      // Fire the init hook.
 			$this->init();
 		} else {
+      // Check to see if a login screen is needed.
 			if(isset($this->login) && $this->login){
+        // Check if it's the admin that is needed.
 				if($this->router->controller == 'Admin'){
 					$this->layout = 'login';
 					$this->asset('css', 'login.css', true);
 					$this->render('login', true);
-				}
-				else $this->render('login');
+				} else $this->render('login');
 			} else {
+        // Else we show an Access Denied page.
 				$this->render('no-access');
 			}
 		}
@@ -217,30 +229,43 @@ class Controller extends WebApp{
    * @param string  $data    $_POST sent through from constructor.
    */
   private function check_for_login($data){
-    if(isset($data['fw']['username'])){
-      $this->model('Login');
-      $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
-      if($this->model->data){
-        $user = array_pop($this->model->data);
-        $user = array_pop($user);
-        if(!empty($user)){
-          if($this->user->check_password($data['fw']['password'], $user->password)){
-            $this->user->login(array(
-              'id' => $user->id,
-              'name' => $user->name,
-              'email' => $user->email,
-              'username' => $user->username,
-              'acl' => $user->acl,
-              'admin' => $user->admin,
-            ));
-          } else {
-            $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
+    if(!$this->user->loggedin){
+      // Check to see if the array fw[] is there which is used on all login forms.
+      if(isset($data['fw']['username'])){
+        // Pull in the Login model.
+        $this->model('Login');
+
+        // Get the correct data from the database.
+        $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
+
+        // If there is a response.
+        if($this->model->data){
+          foreach($this->model->data as $db => $results){
+            $user = array_pop($results);
+            if(!empty($user)){
+              if($this->user->check_password($data['fw']['password'], $user->password)){
+                $this->user->login(array(
+                  'id' => $user->id,
+                  'name' => $user->name,
+                  'email' => $user->email,
+                  'username' => $user->username,
+                  'acl' => $user->acl,
+                  'admin' => $user->admin,
+                  'db' => $db
+                ));
+              } else {
+                $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
+              }
+            } else {
+              $this->messages[] = array('type' => 'danger', 'notice' => 'Username is incorrect.');
+            }
+            break;
           }
-        } else {
-          $this->messages[] = array('type' => 'danger', 'notice' => 'Username is incorrect.');
         }
       }
+      $this->model = null;
+    } else {
+      $this->messages[] = array('type' => 'info', 'notice' => 'You are already logged in!');
     }
-    $this->model = null;
   }
 }

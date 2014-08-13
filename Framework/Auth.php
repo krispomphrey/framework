@@ -38,19 +38,25 @@ class Auth{
 
     // Check to see if the user is currently has a session and switch to logged in.
     if(isset($this->session['fw']['loggedin'])){
+      // Switch whether the user is logged in or not.
       switch($this->session['fw']['loggedin']){
-        case 0:
+        case false:
+          // Set the logged in as false.
           $this->session['fw']['loggedin'] = false;
           // Give a logged out user a nice name.
           $this->session['fw']['name'] = 'Guest';
           break;
-        case 1:
+        case true:
+          // Set the session to true again.
           $this->session['fw']['loggedin'] = true;
           break;
       }
     } else {
+      // Set the logged in to false as default.
       $this->session['fw']['loggedin'] = false;
     }
+
+    // Reference the session variable to an easier to use object variable.
     $this->loggedin = &$this->session['fw']['loggedin'];
   }
 
@@ -58,16 +64,23 @@ class Auth{
    * Implements login();
    *
    * A helper function to set the users session and logged in variable
-   * Simply sets the correct session variables and switches the current user to loggedin.
+   * Simply sets the correct session variables (determined by the user) and switches
+   * the current user to loggedin.
    *
-   * @return void
+   * @return void/boolean
    */
   public function login($data){
+    // Make sure there is actually data.
     if($data){
+      // Loop through the array and set the session variables.
       foreach($data as $key => $value){
         $this->session['fw'][$key] = $value;
       }
-      $this->loggedin = 1;
+
+      // Set the user logged in.
+      $this->loggedin = true;
+    } else {
+      return false;
     }
   }
 
@@ -79,8 +92,13 @@ class Auth{
    * @return void
    */
   public function logout(){
+    // Log out the user.
     $this->loggedin = false;
+
+    //unset all the session variables.
     unset($this->session['fw']);
+
+    // Switch the name
     $this->session['fw']['name'] = 'Guest';
   }
 
