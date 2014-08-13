@@ -13,7 +13,7 @@ class Config{
       'fw_data' => array(
         'type' => 'mysqli',
         'user' => 'root',
-        'password' => 'supermassive',
+        'password' => 's10052',
         'host' => 'localhost',
         'prefix' => ''
       )

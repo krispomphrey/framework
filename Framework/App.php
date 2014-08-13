@@ -118,7 +118,11 @@ class WebApp{
    * @param string  $inc  The asset to include minus the .php
    */
   public function incl($inc){
-    return include_once($inc.".php");
+    if(file_exists("{$inc}.php")){
+      return include_once("{$inc}.php");
+    } else {
+      return false;
+    }
   }
 
   /**

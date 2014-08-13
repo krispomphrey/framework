@@ -67,8 +67,8 @@ class MysqliDriver{
       $c = 0;
 
       foreach($data as $field => $value){
-        $cols .= $field;
-        $vals .= "'".$value."'";
+        $cols .= $this->client->escape_string($field);
+        $vals .= "'".$this->client->escape_string($value)."'";
         if($c < count($data)-1){
           $cols .= ', ';
           $vals .= ', ';
@@ -119,7 +119,7 @@ class MysqliDriver{
           // Loop through all the arguments and build the sql string.
             $c = 0;
           foreach($statement['cols'] as $col){
-            $cols .= $col;
+            $cols .= $this->client->escape_string($col);
             if($c < count($statement['cols'])-1){
               $cols .= ', ';
             }
@@ -142,8 +142,10 @@ class MysqliDriver{
         if(is_array($statement['args'])){
           // Loop through all the arguments and build the sql string.
           foreach($statement['args'] as $arg){
-            $where .= (($arg[3] && count($statement['args']) > 1) ? $arg[3] : null);
-            $where .= $this->client->real_escape_string($arg[0]).' '.$this->client->real_escape_string($arg[1])." '".$this->client->real_escape_string($arg[2])."'";
+            if(isset($arg[3])){
+              $where .= $arg[3];
+            }
+            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.
@@ -189,7 +191,7 @@ class MysqliDriver{
         $c = 0;
         $data_string = '';
         foreach($data as $field => $value){
-          $data_string .= "{$field} = '{$value}'";
+          $data_string .= $this->client->escape_string($field) .' = '. $this->client->escape_string($value);
           if($c < count($data)-1){
             $data_string .= ', ';
           }
@@ -205,7 +207,7 @@ class MysqliDriver{
           // Loop through all the arguments and build the sql string.
           foreach($statement['args'] as $arg){
             $where .= (($arg[3] && count($statement['args']) > 1) ? $arg[3] : null);
-            $where .= $this->client->real_escape_string($arg[0]).' '.$this->client->real_escape_string($arg[1])." '".$this->client->real_escape_string($arg[2])."'";
+            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.
@@ -251,7 +253,7 @@ class MysqliDriver{
           // Loop through all the arguments and build the sql string.
           foreach($statement['args'] as $arg){
             $where .= (($arg[3] && count($statement['args']) > 1) ? $arg[3] : null);
-            $where .= $this->client->real_escape_string($arg[0]).' '.$this->client->real_escape_string($arg[1])." '".$this->client->real_escape_string($arg[2])."'";
+            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.

@@ -79,10 +79,11 @@ class Controller extends WebApp{
 	public function __construct(){
     parent::__construct();
 		$this->pre_init();
+    if($_POST) $this->check_for_login($_POST);
 		if($this->auth()){
 			$this->init();
 		} else {
-			if(isset($this->login) && $this->login == 1){
+			if(isset($this->login) && $this->login){
 				if($this->router->controller == 'Admin'){
 					$this->layout = 'login';
 					$this->asset('css', 'login.css', true);
@@ -93,6 +94,8 @@ class Controller extends WebApp{
 				$this->render('no-access');
 			}
 		}
+    $this->debug($this->user);
+    $this->user->logout();
 	}
 
   /**
@@ -116,10 +119,11 @@ class Controller extends WebApp{
    * Function to check whether current user is worthy of accessing the controller.
    */
 	public function auth(){
-		if(isset($this->protected) && $this->protected && $this->user->loggedin == 0){
+    $this->debug($this->user->loggedin);
+		if(isset($this->protected) && $this->protected){
 			if(!empty($this->auth) && is_array($this->auth)){
 				foreach($this->auth as $type => $acls){
-					if(in_array($this->user->acl, $acls)){
+					if(isset($this->user->session['fw']['acl']) && in_array($this->user->session['fw']['acl'], $acls)){
 						switch($type){
 							case 'allow': return true; break;
 							case 'deny': return false; break;
@@ -128,9 +132,11 @@ class Controller extends WebApp{
 						return false;
 					}
 				}
-			} else {
-				return false;
-			}
+			} elseif(isset($this->user->loggedin) && $this->user->loggedin){
+				return true;
+			} else{
+        return false;
+      }
 		} else {
 			return true;
 		}
@@ -194,4 +200,33 @@ class Controller extends WebApp{
 		$model = $model.'Model';
 		$this->model = new $model();
 	}
+
+  /**
+   * Implements check_for_login();
+   *
+   * This is the catch for a posted page. The function expects at least $_POST['fw']['username']
+   * and $_POST['fw']['password'].
+   *
+   * @param string  $data    $_POST sent through from constructor.
+   */
+  public function check_for_login($data){
+    if(isset($data['fw']['username'])){
+      $this->model('Login');
+      $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
+      if($this->model->data){
+        $user = array_pop($this->model->data);
+        $user = array_pop($user);
+        if(!empty($user)){
+          if($this->user->check_password($data['fw']['password'], $user->password)){
+            $this->user->login($user);
+          } else {
+            $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
+          }
+        } else {
+          $this->messages[] = array('type' => 'danger', 'notice' => 'Username is incorrect.');
+        }
+      }
+    }
+    $this->model = null;
+  }
 }

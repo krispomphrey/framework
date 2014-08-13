@@ -68,15 +68,37 @@ class Router{
 		$this->route = substr($_SERVER['PHP_SELF'], strlen('/index.php/'));
 		if($this->route){
 			$parts = explode('/',$this->route);
-			if(strpos($parts[0], '-') !== false){
-				$control_parts = explode('-', $parts[0]);
-				foreach($control_parts as &$prt){
-					$prt = ucwords($prt);
-				}
-				$control = implode('', $control_parts);
-			} else {
-				$control = ucwords($parts[0]);
-			}
+      $control = $parts[0];
+      if(is_array($parts)){
+        foreach($parts as &$part){
+          if(strpos($part, '-') !== false){
+            $control_parts = explode('-', $part);
+            foreach($control_parts as &$prt){
+              $prt = ucwords($prt);
+            }
+            $part = implode('', $control_parts);
+          } else {
+            $part = ucwords($part);
+          }
+        }
+        for($c = count($parts); $c > 0; $c--){
+          $con_test = array();
+          for($i = 0; $i < $c; $i++){
+            $con_test[] = $parts[$i];
+          }
+          foreach($con_test as &$ct){
+            $ct = ucwords($ct);
+          }
+          $test = implode('', $con_test);
+          if(file_exists(CONTROLLER_ROOT."{$test}.php")){
+            for($i = 0; $i < $c; $i++){
+              unset($parts[$i]);
+            }
+            $control = $test;
+            break;
+          }
+        }
+      }
 			$this->controller = $control;
 			unset($parts[0]);
 		 	$this->action = $parts;

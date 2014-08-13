@@ -16,14 +16,14 @@ class Model extends WebApp{
 		$this->init();
 	}
 	public function init(){ }
-	public function create($statement, $instances){ }
-	public function get($statement, $instances){
+	public function create($statement, $instances = null){ }
+	public function get($statement,  $instances = null){
     $statement['table'] = $this->table;
-		$this->data = $this->db->select($statement, $instances);
+		$this->data = $this->db->select($statement,  $instances = null);
 		if(empty($this->data)) $this->data = false;
 	}
-	public function save($statement, $instances){ }
-	public function delete($statement, $instances){ }
+	public function save($statement,  $instances = null){ }
+	public function delete($statement,  $instances = null){ }
 	private function other_models(){
 		if(!empty($this->models)){
 			foreach($this->models as $model){
