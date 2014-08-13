@@ -61,10 +61,7 @@ class Model extends WebApp{
     // Fire the pagination (if there is a limit present) method so we can pull in correct details when limiting calls.
     if($this->page_break){
       $db = null;
-      if($this->user->loggedin){
-        $db = $this->user->session['fw']['db'];
-      }
-      $this->pagination($db);
+      $this->pagination($this->user->session['fw']['db']);
     }
 
     // Fire init hook.
