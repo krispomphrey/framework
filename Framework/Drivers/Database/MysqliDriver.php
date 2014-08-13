@@ -32,10 +32,11 @@ class MysqliDriver{
    */
   public function init(){
     $this->client = mysqli_connect($this->config['host'], $this->config['user'], $this->config['password']);
-    if($this->client->connect_error){
-      $this->error();
-    } else {
+    if($this->client && !$this->client->connect_error){
       $this->client->select_db($this->db);
+    } else {
+      $this->client->error = "Could not connect to database.";
+      $this->error();
     }
   }
 
@@ -276,6 +277,15 @@ class MysqliDriver{
     } else {
       return false;
     }
+  }
+
+  /**
+   * Implements close();
+   *
+   * Close the DB.
+   */
+  public function close(){
+    $this->client->close();
   }
 
   /**

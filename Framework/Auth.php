@@ -16,14 +16,10 @@ class Auth{
 	public $loggedin = 0;
 
   /**
-   * Variable holds the current users ID.
-   * @var int
+   * Variable holds current users session.
+   * @var mixed
    */
-	public $id = 0;
-  public $name = '';
-  public $username = '';
-  public $acl = 0;
-  public $acllabel = '';
+  public $session;
 
    /**
    * Implements __construct();
@@ -32,54 +28,31 @@ class Auth{
    * Starts sessions.
    */
 	public function __construct(){
-		if(!isset($_SESSION)){
-		    session_start();
-		}
-		if(isset($_SESSION['auth']['loggedin'])){
-			$this->init_user();
-		} else {
-			$this->loggedin = 0;
-		}
-	}
+    if(!$_SESSION) session_start();
+    $this->session = &$_SESSION;
+    $this->loggedin = &$_SESSION['fw']['loggedin'];
+  }
 
-   /**
-   * Implements login();
-   *
-   * The actual login of a user. Sets session keys.
-   * @param array $user_data
-   * @return bool
-   */
-	public function login($user_data){
-		$_SESSION['auth']['loggedin'] = 1;
-		foreach($user_data as $key => $udata){
-			$_SESSION['auth'][$key] = $udata;
-		}
-		unset($_SESSION['auth']['password']);
-		$this->init_user();
-		return true;
-	}
+  public function login($data){
+    if($data){
+      foreach($data as $key => $value){
+        $this->session['fw'][$key] = $value;
+      }
+    }
+  }
 
-  /**
-   * Implements init_user();
-   *
-   * Places the session in the Auth object.
-   * Referenced by value.
-   */
-	public function init_user(){
-		foreach($_SESSION['auth'] as $key => &$value){
-			$this->$key = $value;
-		}
-	}
+  public function logout(){
+    $this->loggedin = 0;
+    unset($this->session['fw']);
+  }
 
-  /**
-   * Implements logout();
-   *
-   * Remove the logged in session and set the Auth object to signed out.
-   * @param str $url
-   */
-	public function logout($url){
-		unset($_SESSION['auth']['loggedin']);
-		$this->loggedin = 0;
-		Router::redirect($url);
-	}
+  public function create_user($data){
+    if($data){
+      return password_hash($data['password']);
+    }
+  }
+
+  private function generate_token(){ }
+
+  private function check_token(){ }
 } ?>
