@@ -1,9 +1,9 @@
 <?php
 /**
  * Framework Authentication Handler.
- * Anything authentication based in this class.
  *
- * @todo: Auth tokens.
+ * This class holds all the user specific methods for the framework.  This will handle
+ * passwords and setting up user sessions.
  *
  * @package: Framework
  * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
@@ -67,6 +67,7 @@ class Auth{
    * Simply sets the correct session variables (determined by the user) and switches
    * the current user to loggedin.
    *
+   * @param   array   $data   Holds an array of data to add to the session.
    * @return void/boolean
    */
   public function login($data){
@@ -111,7 +112,7 @@ class Auth{
    * periods, underscores and numbers only, no spaces) and a properly hashed password.
    *
    * @uses $this->generate_password().
-   *
+   * @param   array   $data     An array containing a username => value and password => value pair.
    * @return array/boolean A partial user array, ready to be entered into a database or false.
    */
   public function create_user($data){
@@ -133,6 +134,8 @@ class Auth{
    *
    * Function will check a plain text password against a hashed password if both are present.
    *
+   * @param   string   $password    A plain text string that has been inputted.
+   * @param   string   $hashed      The hashed password returned from the database.
    * @return boolean
    */
   public function check_password($password, $hashed){
@@ -143,6 +146,14 @@ class Auth{
     }
   }
 
+  /**
+   * Implements generate_password();
+   *
+   * A private function that will take a plain text password and return the hashed counterpart.
+   *
+   * @param   string   $password    A plain text string that has been inputted.
+   * @return string
+   */
   private function generate_password($password){
     if($password){
       return password_hash($password, PASSWORD_BCRYPT, array('cost' => 11));
@@ -158,7 +169,7 @@ class Auth{
    * - Hyphens
    * - Underscores
    * - Periods
-   *
+   * @param   string   $data    The string to be validated.
    * @return boolean
    */
   private function validate($data){

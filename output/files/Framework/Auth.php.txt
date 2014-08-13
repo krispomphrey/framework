@@ -1,9 +1,9 @@
 <?php
 /**
  * Framework Authentication Handler.
- * Anything authentication based in this class.
  *
- * @todo: Auth tokens.
+ * This class holds all the user specific methods for the framework.  This will handle
+ * passwords and setting up user sessions.
  *
  * @package: Framework
  * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
@@ -11,76 +11,173 @@
 class Auth{
   /**
    * Variable holds whether the current user is logged in or not.
-   * @var int
+   * @var boolean
    */
-	public $loggedin = 0;
+	public $loggedin = false;
 
   /**
-   * Variable holds the current users ID.
-   * @var int
+   * Variable holds current users session and is a reference to $_SESSION.
+   * @var mixed
    */
-	public $id = 0;
-  public $name = '';
-  public $username = '';
-  public $acl = 0;
-  public $acllabel = '';
+  public $session;
 
    /**
    * Implements __construct();
    *
    * The main Auth constructor.
    * Starts sessions.
+   *
+   * @return void
    */
 	public function __construct(){
-		if(!isset($_SESSION)){
-		    session_start();
-		}
-		if(isset($_SESSION['auth']['loggedin'])){
-			$this->init_user();
-		} else {
-			$this->loggedin = 0;
-		}
-	}
+    // If the session hasn't already been started in the app, start it now.
+    if(!isset($_SESSION)) session_start();
 
-   /**
-   * Implements login();
-   *
-   * The actual login of a user. Sets session keys.
-   * @param array $user_data
-   * @return bool
-   */
-	public function login($user_data){
-		$_SESSION['auth']['loggedin'] = 1;
-		foreach($user_data as $key => $udata){
-			$_SESSION['auth'][$key] = $udata;
-		}
-		unset($_SESSION['auth']['password']);
-		$this->init_user();
-		return true;
-	}
+    // Assign a reference to $_SESSION with the public class variable.
+    $this->session = &$_SESSION;
+
+    // Check to see if the user is currently has a session and switch to logged in.
+    if(isset($this->session['fw']['loggedin'])){
+      // Switch whether the user is logged in or not.
+      switch($this->session['fw']['loggedin']){
+        case false:
+          // Set the logged in as false.
+          $this->session['fw']['loggedin'] = false;
+          // Give a logged out user a nice name.
+          $this->session['fw']['name'] = 'Guest';
+          break;
+        case true:
+          // Set the session to true again.
+          $this->session['fw']['loggedin'] = true;
+          break;
+      }
+    } else {
+      // Set the logged in to false as default.
+      $this->session['fw']['loggedin'] = false;
+    }
+
+    // Reference the session variable to an easier to use object variable.
+    $this->loggedin = &$this->session['fw']['loggedin'];
+  }
 
   /**
-   * Implements init_user();
+   * Implements login();
    *
-   * Places the session in the Auth object.
-   * Referenced by value.
+   * A helper function to set the users session and logged in variable
+   * Simply sets the correct session variables (determined by the user) and switches
+   * the current user to loggedin.
+   *
+   * @param   array   $data   Holds an array of data to add to the session.
+   * @return void/boolean
    */
-	public function init_user(){
-		foreach($_SESSION['auth'] as $key => &$value){
-			$this->$key = $value;
-		}
-	}
+  public function login($data){
+    // Make sure there is actually data.
+    if($data){
+      // Loop through the array and set the session variables.
+      foreach($data as $key => $value){
+        $this->session['fw'][$key] = $value;
+      }
+
+      // Set the user logged in.
+      $this->loggedin = true;
+    } else {
+      return false;
+    }
+  }
 
   /**
    * Implements logout();
    *
-   * Remove the logged in session and set the Auth object to signed out.
-   * @param str $url
+   * Logout function simply removes the users session and switches the name to Guest.
+   *
+   * @return void
    */
-	public function logout($url){
-		unset($_SESSION['auth']['loggedin']);
-		$this->loggedin = 0;
-		Router::redirect($url);
-	}
+  public function logout(){
+    // Log out the user.
+    $this->loggedin = false;
+
+    //unset all the session variables.
+    unset($this->session['fw']);
+
+    // Switch the name
+    $this->session['fw']['name'] = 'Guest';
+  }
+
+  /**
+   * Implements create_user();
+   *
+   * This function helps the app create a standard user.  Framework expects a table
+   * named users with at least 3 columns: crdate, username, password.  The current
+   * request time is used, along with the user generated username (checked for letters, hypens
+   * periods, underscores and numbers only, no spaces) and a properly hashed password.
+   *
+   * @uses $this->generate_password().
+   * @param   array   $data     An array containing a username => value and password => value pair.
+   * @return array/boolean A partial user array, ready to be entered into a database or false.
+   */
+  public function create_user($data){
+    // Make sure we have data.
+    if($data){
+      // Validate the username and password to make sure it conforms to our pattern.
+      if($this->validate($data['username']) && $this->validate($data['password'])){
+        return array(
+          'crdate' => time(),
+          'username' => $data['username'],
+          'password' => $this->generate_password($data['password'])
+        );
+      } else return false;
+    }
+  }
+
+  /**
+   * Implements check_password();
+   *
+   * Function will check a plain text password against a hashed password if both are present.
+   *
+   * @param   string   $password    A plain text string that has been inputted.
+   * @param   string   $hashed      The hashed password returned from the database.
+   * @return boolean
+   */
+  public function check_password($password, $hashed){
+    if($password && $hashed){
+      return password_verify($password, $hashed);
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Implements generate_password();
+   *
+   * A private function that will take a plain text password and return the hashed counterpart.
+   *
+   * @param   string   $password    A plain text string that has been inputted.
+   * @return string
+   */
+  private function generate_password($password){
+    if($password){
+      return password_hash($password, PASSWORD_BCRYPT, array('cost' => 11));
+    }
+  }
+
+  /**
+   * Implements validate();
+   *
+   * Simply validates input to make sure that it conforms to standards.
+   * The regex pattern allows the following:
+   * - Alphanumeric Characters
+   * - Hyphens
+   * - Underscores
+   * - Periods
+   * @param   string   $data    The string to be validated.
+   * @return boolean
+   */
+  private function validate($data){
+    if(preg_match('/[a-z._\-0-9]/i', $data)){
+      return true;
+    } else {
+      return false;
+    }
+  }
 } ?>
 

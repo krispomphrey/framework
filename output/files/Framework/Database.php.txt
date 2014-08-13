@@ -9,8 +9,22 @@
  * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
  */
 class Database{
+  /**
+   * Holds the data from the driver.
+   * @var mixed
+   */
   public $data;
+
+  /**
+   * Holds an array of databased and their clients.
+   * @var object
+   */
 	private $dbs;
+
+  /**
+   * Holds the configuration from settings.php.
+   * @var object
+   */
   private $config;
 
   /**
@@ -18,6 +32,8 @@ class Database{
    *
    * The main Database constructor.  This will run through the list of databases
    * (if any) in the config and create instances available at $db->dbs['DB_NAME'].
+   *
+   * @return void
    */
 	public function __construct(){
     // Grab the configuration so we can extract some databases.
@@ -51,6 +67,7 @@ class Database{
    *
    * @param mixed   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return void/mixed
    */
   public function query($statement, $instances = array()){
     if($statement){
@@ -75,6 +92,7 @@ class Database{
    * @param array   $data         An array of data to insert in FIELD => VALUE array.
    * @param mixed   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return void/mixed
    */
   public function insert($data, $statement = array(), $instances = array()){
     if($statement){
@@ -98,6 +116,7 @@ class Database{
    *
    * @param mixed   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return void/mixed
    */
   public function select($statement, $instances = array()){
     if($statement){
@@ -122,6 +141,7 @@ class Database{
    * @param array   $data         An array of data to update in FIELD => VALUE array.
    * @param mixed   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return void
    */
   public function update($data, $statement, $instances = array()){
     if($statement){
@@ -144,6 +164,7 @@ class Database{
    *
    * @param mixed   $statement    The statement to be passed to the driver.
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
+   * @return void/mixed
    */
   public function delete($statement, $instances = array()){
     if($statement){
@@ -166,6 +187,7 @@ class Database{
    * You can kill a connection.  You can't kill an idea.
    *
    * @param array   $instances    Used to kill one or more instances of a database, rather than all.
+   * @return void/mixed
    */
   public function destroy($instances = array()){
     if(!empty($instances)){
@@ -184,6 +206,7 @@ class Database{
    * Implements error();
    *
    * What to do when we fail in our quest for content.
+   * @return void
    */
   private function error(){
     if(file_exists(LAYOUT_ROOT.'error.php')){

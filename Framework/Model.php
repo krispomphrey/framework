@@ -1,4 +1,14 @@
 <?php
+/**
+ * Framework Parent Model.
+ *
+ * This is the main model that is extended by user models and extends
+ * the WebApp class, that sets up framework specific objects and functions.
+ * Helper functions are set up for inheritance and are used for "data" specific things.
+ *
+ * @package     Framework
+ * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
+ */
 class Model extends WebApp{
 	public $table;
 	public $models = array();

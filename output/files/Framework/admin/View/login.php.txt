@@ -19,10 +19,10 @@
 					</div>
 					<?php endif; ?>
 					<form name="login-form" method="POST">
-						<input type="text" name="username" placeholder="Enter Username" />
-						<input type="password" name="password" placeholder="Enter Password" />
-						<button class="btn btn-primary">Login</button>
-					</form>
+            <input type="text" name="fw[username]" placeholder="Enter Username" />
+            <input type="password" name="fw[password]" placeholder="Enter Password" />
+            <button class="btn btn-primary">Login</button>
+          </form>
 				</div>
 			</div>
 		</div>
