@@ -24,6 +24,16 @@ class Config{
 
     */
 
+    $this->dbs = array(
+      'fw_data' => array(
+        'type' => 'mysqli',
+        'user' => 'root',
+        'password' => 's10052',
+        'host' => 'localhost',
+        'prefix' => ''
+      )
+    );
+
     // Whether to output debugging information or not.
   	$this->debug = false;
 

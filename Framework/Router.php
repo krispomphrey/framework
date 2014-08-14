@@ -49,7 +49,7 @@ class Router{
 	public function __construct(){
 		$this->build_route();
     $this->headers = getallheaders();
-		$this->ignore = array('Uploads', 'assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output');
+		$this->ignore = array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output');
     $config = new Config();
     if($config->base_url){
       $this->base_url = $config->base_url;
@@ -139,9 +139,9 @@ class Router{
 
 // Framework constants.
 define('FW_ROOT', DIR_ROOT.'/Framework/');
-define('ADMIN_ASSETS_ROOT', FW_ROOT.'admin/assets/');
-define('ADMIN_VIEW_ROOT', FW_ROOT.'admin/View/');
-define('ADMIN_LAYOUT_ROOT', FW_ROOT.'admin/Layout/');
+define('ADMIN_ASSETS_ROOT', FW_ROOT.'Admin/Assets/');
+define('ADMIN_VIEW_ROOT', FW_ROOT.'Admin/View/');
+define('ADMIN_LAYOUT_ROOT', FW_ROOT.'Admin/Layout/');
 
 // Site constants.
 define('ASSETS_ROOT', DIR_ROOT.'/Assets/');
