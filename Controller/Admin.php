@@ -19,10 +19,10 @@ class AdminController extends Controller{
 	public function init(){
     if(isset($this->router->action[1])){
   		switch($this->router->action[1]){
-  			case 'content': $this->render('content', true);
-  			case 'pages': $this->render('users', true);
-  			case 'users': $this->render('users', true);
-  			case 'settings': $this->render('settings', true);
+  			case 'content': $this->render('content', true); break;
+  			case 'pages': $this->render('users', true); break;
+  			case 'users': $this->render('users', true); break;
+  			case 'settings': $this->render('settings', true); break;
         case 'logout':
           $this->user->logout();
           $this->router->redirect('/');

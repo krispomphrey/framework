@@ -49,8 +49,6 @@ class MysqliDriver{
    */
   public function query($statement){
     $results = $this->client->query($statement);
-    var_dump($statement);
-    var_dump($results);
     return $results;
   }
 

@@ -11,6 +11,7 @@
 class IndexController extends Controller{
 	public function pre_init(){
 		$this->asset('css', 'bootstrap.min.css');
+    $this->asset('css', 'template.css', true);
 	}
 	public function init(){
 		$this->render('home');

@@ -45,6 +45,12 @@ class WebApp{
   public $log;
 
   /**
+   * Variable that will hold the mailer.
+   * @var object
+   */
+  public $mail;
+
+  /**
    * Variable that will hold the user auth.
    * @var object
    */
@@ -65,6 +71,7 @@ class WebApp{
 		$this->user = new Auth();
     $this->config = new Config();
     $this->log = new Logger();
+    $this->mail = new Mail();
 	}
 
   /**
@@ -160,7 +167,7 @@ class WebApp{
     $path = null;
     // If we are looking for admin assets.
     if($admin) $path = '/Framework/admin';
-    $this->queue[$type][] = "$path/assets/$type/$file";
+    $this->queue[$type][] = "$path/Assets/$type/$file";
   }
 
   /**
