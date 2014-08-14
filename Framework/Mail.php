@@ -127,7 +127,7 @@ class Mail{
 
     // Check to make sure we have some from details
     if(!empty($this->reply)){
-      $this->client->ReplyTo($this->reply['email'], $this->from['name']);
+      $this->client->addReplyTo($this->reply['email'], $this->from['name']);
     }
 
     // Check to see if we have any reciepients.
