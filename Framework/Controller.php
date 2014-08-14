@@ -106,7 +106,6 @@ class Controller extends WebApp{
 				$this->render('no-access');
 			}
 		}
-    // $this->user->logout();
 	}
 
   /**

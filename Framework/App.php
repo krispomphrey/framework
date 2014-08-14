@@ -45,6 +45,12 @@ class WebApp{
   public $log;
 
   /**
+   * Variable that will hold the mailer.
+   * @var object
+   */
+  public $mail;
+
+  /**
    * Variable that will hold the user auth.
    * @var object
    */
@@ -65,6 +71,7 @@ class WebApp{
 		$this->user = new Auth();
     $this->config = new Config();
     $this->log = new Logger();
+    $this->mail = new Mail();
 	}
 
   /**
