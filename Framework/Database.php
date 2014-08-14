@@ -39,7 +39,7 @@ class Database{
     // Grab the configuration so we can extract some databases.
 		$this->config = new Config();
     // Make sure there are databases to use.
-    if($this->config->dbs && !empty($this->config->dbs)){
+    if(isset($this->config->dbs) && !empty($this->config->dbs)){
       // Count how many databases we have, so we can set the object to be simple or multidimensional.
       // Run through each of the databases defined.
       foreach($this->config->dbs as $key => $db){
@@ -68,7 +68,9 @@ class Database{
    * @return void
    */
   public function __destruct(){
-    $this->destroy();
+    if(isset($this->config->dbs) && !empty($this->config->dbs)){
+      $this->destroy();
+    }
   }
 
   /**
