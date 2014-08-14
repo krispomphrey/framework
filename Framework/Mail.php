@@ -1,2 +1,2 @@
-<?php require_once('plugins/PHPMailer.php');
+<?php require_once '/plugins/PHPMailer/PHPMailerAutoload.php';
 class Mail{ }

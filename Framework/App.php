@@ -160,7 +160,7 @@ class WebApp{
     $path = null;
     // If we are looking for admin assets.
     if($admin) $path = '/Framework/admin';
-    $this->queue[$type][] = "$path/assets/$type/$file";
+    $this->queue[$type][] = "$path/Assets/$type/$file";
   }
 
   /**
