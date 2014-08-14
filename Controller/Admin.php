@@ -23,6 +23,10 @@ class AdminController extends Controller{
   			case 'pages': $this->render('users', true);
   			case 'users': $this->render('users', true);
   			case 'settings': $this->render('settings', true);
+        case 'logout':
+          $this->user->logout();
+          $this->router->redirect('/');
+          break;
   			default: $this->render('dashboard', true);
   		}
   	} else $this->render('dashboard', true);
