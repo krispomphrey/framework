@@ -49,8 +49,11 @@ class Router{
 	public function __construct(){
 		$this->build_route();
     $this->headers = getallheaders();
-		$this->ignore = array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output');
     $config = new Config();
+
+    // Merge some things into the array that are definetly needed as ignored.
+		$this->ignore = array_merge(array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output'), $config->ignore);
+
     if($config->base_url){
       $this->base_url = $config->base_url;
     } else {
@@ -65,11 +68,19 @@ class Router{
    * it out into usable variables.
    */
 	private function build_route(){
+    // Grab the parts from the rewrite.
 		$this->route = substr($_SERVER['PHP_SELF'], strlen('/index.php/'));
+
+    // If anything is after the base url.
 		if($this->route){
+      // Get rid of the foward slash and grab all the url parts.
 			$parts = explode('/',$this->route);
+
+      // The first part will always be a controller.
       $control = $parts[0];
+      // Make sure the parts are in an array otherwise the app will fail.
       if(is_array($parts)){
+        // Run through all the parts and format them properly.
         foreach($parts as &$part){
           if(strpos($part, '-') !== false){
             $control_parts = explode('-', $part);
@@ -81,6 +92,8 @@ class Router{
             $part = ucwords($part);
           }
         }
+
+        // Loop through the parts and test to see if the controller is "Part" or "PartPart".
         for($c = count($parts); $c > 0; $c--){
           $con_test = array();
           for($i = 0; $i < $c; $i++){
@@ -99,9 +112,14 @@ class Router{
           }
         }
       }
+
+      // Get the final control and reassign it to the router controller.
 			$this->controller = $control;
+
+      // Reset the action positions.
 		 	$this->action = array_map('strtolower', $parts);
 		} else {
+      // Use the default controller.
 			$this->controller = 'Index';
 		}
 	}
