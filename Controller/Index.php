@@ -13,6 +13,7 @@ class IndexController extends Controller{
 		$this->asset('css', 'bootstrap.min.css');
     $this->asset('css', 'template.css', true);
 	}
+
 	public function init(){
 		$this->render('home');
 	}

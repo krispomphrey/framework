@@ -12,10 +12,12 @@ class AdminController extends Controller{
 	public $protected = true;
 	public $login = true;
 	public $auth = array('allow' => array(99));
+
 	public function pre_init(){
 		$this->asset('css', 'bootstrap.min.css', true);
 		$this->asset('css', 'template.css', true);
 	}
+
 	public function init(){
     if(isset($this->router->action[1])){
   		switch($this->router->action[1]){
