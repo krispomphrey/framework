@@ -3,13 +3,13 @@
  * Framework Parent Controller.
  *
  * This is the main controller that is extended by user controllers and extends
- * the WebApp class, that sets up framework specific objects and functions.
+ * the App class, that sets up framework specific objects and functions.
  * Helper functions are set up for inheritance and are used for "page" specific things.
  *
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class Controller extends WebApp{
+class Controller extends App{
   /**
    * Holds the model object that is defined for this controller.
    * @var object
@@ -73,7 +73,7 @@ class Controller extends WebApp{
    *
    * The main Controller constructor.
    *
-   * This will invoke WebApp::__construct() so we can get access to the database,
+   * This will invoke App::__construct() so we can get access to the database,
    * current user and router from within the controller.
    *
    * @return void

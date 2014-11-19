@@ -20,7 +20,7 @@ require_once('Model.php');
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class WebApp{
+class App{
   /**
    * Variable that will hold the app config.
    * @var object
@@ -59,7 +59,7 @@ class WebApp{
   /**
    * Implements __construct();
    *
-   * The main WebApp constructor.
+   * The main App constructor.
    * This function builds the main helper objects used by the app.
    *
    * @return void
@@ -92,7 +92,7 @@ class WebApp{
   }
 
   /**
-   * Implements render_page();
+   * Implements go();
    *
    * This holds the meat of the app, setting up the controller to use.
    * Function uses router to get correct data to render.
@@ -103,7 +103,7 @@ class WebApp{
    *
    * @return void
    */
-	public function render_page(){
+	public function go(){
     // Make sure that the path isn't in the ignore array (i.e. assets);
     if(!in_array($this->router->controller, $this->router->ignore)){
       // If there is no path, we are on the index page.  Show it!.
@@ -166,7 +166,7 @@ class WebApp{
   public function asset($type, $file, $admin = false){
     $path = null;
     // If we are looking for admin assets.
-    if($admin) $path = '/Framework/admin';
+    if($admin) $path = '/Framework/Admin';
     $this->queue[$type][] = "$path/Assets/$type/$file";
   }
 

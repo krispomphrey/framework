@@ -51,7 +51,7 @@ class Router{
     $this->headers = getallheaders();
     $config = new Config();
 
-    // Merge some things into the array that are definetly needed as ignored.
+    // Merge some things into the array that definetly need to be ignored.
 		$this->ignore = array_merge(array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output'), $config->ignore);
 
     if($config->base_url){

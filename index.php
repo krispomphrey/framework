@@ -15,7 +15,7 @@ define('DIR_ROOT', getcwd());
 require_once('Framework/App.php');
 
 // Initialise the app
-$app = new WebApp();
+$app = new App();
 
 // Give us an output from the controller.
-$app->render_page(); ?>
+$app->go(); ?>

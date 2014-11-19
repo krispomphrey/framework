@@ -3,13 +3,13 @@
  * Framework Parent Model.
  *
  * This is the main model that is extended by user models and extends
- * the WebApp class, that sets up framework specific objects and functions.
+ * the App class, that sets up framework specific objects and functions.
  * Helper functions are set up for inheritance and are used for "data" specific things.
  *
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class Model extends WebApp{
+class Model extends App{
   /**
    * Holds the table that this model will use.
    * @var string
@@ -46,7 +46,7 @@ class Model extends WebApp{
    *
    * The main Model constructor.
    *
-   * This will invoke WebApp::__construct() so we can get access to the database,
+   * This will invoke App::__construct() so we can get access to the database,
    * current user and router from within the controller.
    *
    * @return void
@@ -101,6 +101,7 @@ class Model extends WebApp{
     // Add the current time to the data.
     $data['crdate'] = time();
     $data['uddate'] = time();
+
     // Add the current user id to the data.
     $data['created_by'] = $this->user->session['fw']['id'];
     $data['updated_by'] = $this->user->session['fw']['id'];
@@ -152,8 +153,8 @@ class Model extends WebApp{
     // Add the current time to the data.
     $data['crdate'] = time();
     $data['uddate'] = time();
+
     // Add the current user id to the data.
-    $data['created_by'] = $this->user->session['fw']['id'];
     $data['updated_by'] = $this->user->session['fw']['id'];
 
     // Pass the amended variables to the database controller and return it.

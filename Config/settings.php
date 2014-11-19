@@ -4,8 +4,8 @@
  *
  * All the configuration for the framework is held here.
  *
- * @package: Framework
- * @author: Kris Pomphrey <kris@krispomphrey.co.uk>
+ * @package   Framework
+ * @author    Kris Pomphrey <kris@krispomphrey.co.uk>
  */
 class Config{
   public function __construct(){
