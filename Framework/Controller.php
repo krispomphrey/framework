@@ -64,7 +64,7 @@ class Controller extends App{
   /**
    * Auth variable will hold allow and deny for each controller to set permissions based access
    * (when $protected is true).
-   * @var boolean
+   * @var array
    */
 	public $auth = array();
 
