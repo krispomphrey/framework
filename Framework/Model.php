@@ -189,7 +189,7 @@ class Model extends App{
 	private function other_models(){
 		if(!empty($this->models)){
 			foreach($this->models as $model){
-				$this->incl(MODEL_ROOT."{$model}.php");
+				$this->incl(MODEL_ROOT."{$model}");
 				$m = $model.'Model';
 				$this->$model = new $m;
 			}
