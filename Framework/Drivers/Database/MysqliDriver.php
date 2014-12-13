@@ -115,7 +115,6 @@ class MysqliDriver{
       if(in_array('cols', $skeys)){
         // Check that there are multiple columsn in an array.
         if(is_array($statement['cols'])){
-          $cols .= '(';
           // Loop through all the arguments and build the sql string.
             $c = 0;
           foreach($statement['cols'] as $col){
@@ -125,7 +124,6 @@ class MysqliDriver{
             }
             $c++;
           }
-          $cols .= ')';
         } else {
           // A string of columns.
           $cols .= $statement['cols'];
@@ -137,15 +135,16 @@ class MysqliDriver{
 
       // Check to see if specified arguments.
       if(in_array('args', $skeys)){
-        $where .= 'WHERE ';
+        $where .= 'WHERE';
         // Check that there are multiple columsn in an array.
         if(is_array($statement['args'])){
           // Loop through all the arguments and build the sql string.
-          foreach($statement['args'] as $arg){
+          foreach($statement['args'] as $key => $arg){
             if(isset($arg[3])){
               $where .= $arg[3];
             }
-            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
+            if($key > 0) $where .= ' AND';
+            $where .= ' '.$this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.
@@ -215,13 +214,14 @@ class MysqliDriver{
 
       // Check to see if specified arguments.
       if(in_array('args', $skeys)){
-        $where .= 'WHERE ';
+        $where .= 'WHERE';
         // Check that there are multiple columns in an array.
         if(is_array($statement['args'])){
           // Loop through all the arguments and build the sql string.
-          foreach($statement['args'] as $arg){
+          foreach($statement['args'] as $key => $arg){
             $where .= (($arg[3] && count($statement['args']) > 1) ? $arg[3] : null);
-            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
+            if($key > 0) $where .= ' AND';
+            $where .= ' '.$this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.
@@ -261,13 +261,13 @@ class MysqliDriver{
 
       // Check to see if specified arguments.
       if(in_array('args', $skeys)){
-        $where .= 'WHERE ';
+        $where .= 'WHERE';
         // Check that there are multiple columns in an array.
         if(is_array($statement['args'])){
           // Loop through all the arguments and build the sql string.
           foreach($statement['args'] as $arg){
             $where .= (($arg[3] && count($statement['args']) > 1) ? $arg[3] : null);
-            $where .= $this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
+            $where .= ' '.$this->client->escape_string($arg[0]).' '.$this->client->escape_string($arg[1])." '".$this->client->escape_string($arg[2])."'";
           }
         } else {
           // A string of conditions.

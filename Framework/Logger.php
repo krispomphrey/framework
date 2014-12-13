@@ -31,7 +31,9 @@ class Logger{
       $data['crdate'] = time();
       $data['created_by'] = $user->session['fw']['id'];
       $data['address'] = $_SERVER['REMOTE_ADDR'];
-      $db->insert($data, array('table' => 'log'));
+
+      // Insert when a DB is available.
+      if($db) $db->insert($data, array('table' => 'log'));
     } else {
       return false;
     }
