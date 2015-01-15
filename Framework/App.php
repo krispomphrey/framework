@@ -144,10 +144,35 @@ class App{
    * @param string  $inc  The asset to include minus the .php
    * @return int/boolean  Will return 1 or false.
    */
-  public function incl($inc){
+  public function incl($inc, $once = true){
     // Make sure the file exists before including it.
     if(file_exists("{$inc}.php")){
-      return include_once("{$inc}.php");
+      if($once){
+        return include_once("{$inc}.php");
+      } else{
+        return include("{$inc}.php");
+      }
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Implements req();
+   *
+   * Require a custom php file (minus .php).
+   *
+   * @param string  $inc  The asset to include minus the .php
+   * @return int/boolean  Will return 1 or false.
+   */
+  public function req($inc, $once = true){
+    // Make sure the file exists before including it.
+    if(file_exists("{$inc}.php")){
+      if($once){
+        return require_once("{$inc}.php");
+      } else{
+        return require("{$inc}.php");
+      }
     } else {
       return false;
     }

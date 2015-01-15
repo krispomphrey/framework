@@ -1,6 +1,6 @@
 #############################################
 Framework
-(c) Kris Pomphrey 2013-2014
+(c) Kris Pomphrey 2013-2015
 krispomphrey.co.uk
 
 Official Change Log

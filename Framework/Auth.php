@@ -21,6 +21,12 @@ class Auth{
    */
   public $session;
 
+  /**
+   * Variable to hold the user details in easier to get to object.
+   * @var object
+   */
+  public $details;
+
    /**
    * Implements __construct();
    *
@@ -73,11 +79,16 @@ class Auth{
    * @return void/boolean
    */
   public function login($data){
+    // Setup the easy to get variables.
+    $this->details = new stdClass();
+
     // Make sure there is actually data.
     if($data){
       // Loop through the array and set the session variables.
       foreach($data as $key => $value){
         $this->session['fw'][$key] = $value;
+        $this->details->$key = &$this->session['fw'][$key];
+
       }
 
       // Set the user logged in.
