@@ -19,8 +19,8 @@
 					</div>
 					<?php endif; ?>
 					<form name="login-form" method="POST">
-            <input type="text" name="fw[username]" placeholder="Enter Username" />
-            <input type="password" name="fw[password]" placeholder="Enter Password" />
+            <input type="text" name="fw[username]" placeholder="Enter Username" value="<?php echo $this->router->request['fw']['username']; ?>" />
+            <input type="password" name="fw[password]" placeholder="Enter Password" value="<?php echo $this->router->request['fw']['password']; ?>" />
             <button class="btn btn-primary">Login</button>
           </form>
 				</div>

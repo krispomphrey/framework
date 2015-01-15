@@ -40,6 +40,12 @@ class Router{
 	public $ignore;
 
   /**
+   * An array of request parameters
+   * @var array
+   */
+  public $request;
+
+  /**
    * Implements __construct();
    *
    * The router constructor.
@@ -47,12 +53,14 @@ class Router{
    * available to all and also sets the base url based on whether it's in the config.
    */
 	public function __construct(){
-		$this->build_route();
-    $this->headers = getallheaders();
     $config = new Config();
 
+		$this->build_route();
+    $this->headers = getallheaders();
+    $this->request = $_REQUEST;
+
     // Merge some things into the array that definetly need to be ignored.
-		$this->ignore = array_merge(array('Uploads', 'Assets', 'Framework/admin', 'Favicon.ico', 'docs', 'output'), $config->ignore);
+		$this->ignore = array_merge(array('Uploads', 'Assets', 'Framework/Admin', 'Favicon.ico', 'docs', 'output'), $config->ignore);
 
     if($config->base_url){
       $this->base_url = $config->base_url;
@@ -74,7 +82,7 @@ class Router{
     // If anything is after the base url.
 		if($this->route){
       // Get rid of the foward slash and grab all the url parts.
-			$parts = explode('/',$this->route);
+			$parts = explode('/', $this->route);
 
       // The first part will always be a controller.
       $control = $parts[0];

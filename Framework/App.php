@@ -5,7 +5,6 @@ require_once('Database.php');
 require_once('Router.php');
 require_once('Auth.php');
 require_once('Mail.php');
-require_once('Logger.php');
 require_once('Controller.php');
 require_once('Model.php');
 
@@ -15,7 +14,7 @@ require_once('Model.php');
  * @version 0.1.3
  *
  * The base class that holds all the objects (and keys) for the controllers,
- * models and views to gain access to by extension.§
+ * models and views to gain access to by extension.
  *
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
@@ -39,12 +38,6 @@ class App{
 	public $router;
 
   /**
-   * Variable that will hold the logger.
-   * @var object
-   */
-  public $log;
-
-  /**
    * Variable that will hold the mailer.
    * @var object
    */
@@ -55,6 +48,12 @@ class App{
    * @var object
    */
 	public $user;
+
+  /**
+   * Variable holds the file operations for the app.
+   * @var object
+   */
+  public $file;
 
   /**
    * Implements __construct();
@@ -70,7 +69,6 @@ class App{
 		$this->router = new Router();
 		$this->user = new Auth();
     $this->config = new Config();
-    $this->log = new Logger();
     $this->mail = new Mail();
 	}
 
@@ -152,9 +150,7 @@ class App{
       } else{
         return include("{$inc}.php");
       }
-    } else {
-      return false;
-    }
+    } else return false;
   }
 
   /**
@@ -173,9 +169,7 @@ class App{
       } else{
         return require("{$inc}.php");
       }
-    } else {
-      return false;
-    }
+    } else return false;
   }
 
   /**

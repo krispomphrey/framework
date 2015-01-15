@@ -229,7 +229,7 @@ class Controller extends App{
    * @param string  $data    $_POST sent through from constructor.
    */
   private function check_for_login($data){
-    if(!$this->user->loggedin){
+    if($this->db && !$this->user->loggedin){
       // Check to see if the array fw[] is there which is used on all login forms.
       if(isset($data['fw']['username'])){
         // Pull in the Users model.
@@ -251,7 +251,7 @@ class Controller extends App{
                   'username' => $user->username,
                   'acl' => $user->acl,
                   'db' => $db,
-                  'loggedin' => 1
+                  'loggedin' => true
                 ));
                 break;
               } else {

@@ -88,14 +88,11 @@ class Auth{
       foreach($data as $key => $value){
         $this->session['fw'][$key] = $value;
         $this->details->$key = &$this->session['fw'][$key];
-
       }
 
       // Set the user logged in.
       $this->loggedin = true;
-    } else {
-      return false;
-    }
+    } else return false;
   }
 
   /**
@@ -158,9 +155,7 @@ class Auth{
   public function check_password($password, $hashed){
     if($password && $hashed){
       return password_verify($password, $hashed);
-    } else {
-      return false;
-    }
+    } else return false;
   }
 
   /**
@@ -174,7 +169,7 @@ class Auth{
   private function generate_password($password){
     if($password){
       return password_hash($password, PASSWORD_BCRYPT, array('cost' => 11));
-    }
+    } else return false;
   }
 
   /**
@@ -192,8 +187,6 @@ class Auth{
   private function validate($data){
     if(preg_match('/[a-z._\-0-9]/i', $data)){
       return true;
-    } else {
-      return false;
-    }
+    } else return false;
   }
 } ?>

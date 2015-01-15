@@ -1,3 +1,4 @@
 .project
 error.log
 .DS_Store
+.sass-cache

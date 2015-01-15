@@ -53,8 +53,8 @@ class Database{
             require_once($current);
             // Start the new instance of the database.
             $this->dbs[$key] = new $class($key, $db);
-          }
-        }
+          } else return false;
+        } else return false;
       }
     } else return false;
 	}
