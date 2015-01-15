@@ -39,7 +39,7 @@ class Model extends App{
    * Set the page_break e.g. the limit on records to show.
    * @var object
    */
-	public $page_break = 50;
+	public $page_break = false;
 
   /**
    * Implements __construct();
@@ -147,7 +147,7 @@ class Model extends App{
    * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
    * @return mixed
    */
-	public function save($data, $statement,  $instances = null){
+	public function save($data, $statement, $instances = null){
     $statement['table'] = $this->table;
 
     // Add the current time to the data.
@@ -158,7 +158,7 @@ class Model extends App{
     $data['updated_by'] = $this->user->session['fw']['id'];
 
     // Pass the amended variables to the database controller and return it.
-    return $this->db->update($data, $statement, $instances = null);
+    return $this->db->update($data, $statement, $instances);
   }
 
   /**
