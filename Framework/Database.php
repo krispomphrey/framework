@@ -1,4 +1,8 @@
 <?php
+namespace Framework;
+
+use Framework\Config;
+
 /**
  * Framework Database Class.
  *

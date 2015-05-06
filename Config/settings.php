@@ -1,4 +1,6 @@
 <?php
+namespace Framework\Core;
+
 /**
  * Framework Configuration.
  *

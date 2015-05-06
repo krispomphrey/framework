@@ -1,4 +1,9 @@
 <?php
+
+namespace Controllers;
+
+use Framework\Controller;
+
 /**
  * Index Controller.
  *

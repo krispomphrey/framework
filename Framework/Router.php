@@ -1,4 +1,8 @@
 <?php
+namespace Framework;
+
+use Framework\Config;
+
 /**
  * Framework Router.
  *
@@ -8,6 +12,7 @@
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
+
 class Router{
   /**
    * Route holds the route that was requested by the user.

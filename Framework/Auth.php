@@ -1,4 +1,6 @@
 <?php
+namespace Framework;
+
 /**
  * Framework Authentication Handler.
  *

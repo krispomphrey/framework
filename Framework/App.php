@@ -1,12 +1,18 @@
 <?php
-// Require the different parts of the framework.
-require_once(DIR_ROOT.'/Config/settings.php');
-require_once('Database.php');
-require_once('Router.php');
-require_once('Auth.php');
-require_once('Mail.php');
-require_once('Controller.php');
-require_once('Model.php');
+
+namespace Framework;
+
+use Framework\AutoLoader;
+
+//use Framework\Core\Config;
+use Framework\Router;
+use Framework\Database;
+use Framework\Auth;
+use Framework\Controller;
+use Framework\Model;
+
+// Load the custom built controllers.
+use Controllers;
 
 /**
  * Framework.
@@ -128,7 +134,7 @@ class App{
 				}
 			} else {
         // Create the new controller and invoke it.
-				$controller = $this->router->controller.'Controller';
+				$controller = "{$this->router->controller}Controller";
 				$control = new $controller();
 			}
 		}

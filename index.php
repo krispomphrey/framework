@@ -6,12 +6,16 @@
  * @package   Framework
  * @author    Kris Pomphrey <kris@krispomphrey.co.uk>
  **/
+namespace Framework;
 
 // Define the directory root of the site for use through the site.
 define('DIR_ROOT', getcwd());
 
 // Make sure Framework is ready.
-require_once('Framework/App.php');
+require_once('Framework/AutoLoader.php');
+$auto_loader = new AutoLoader();
+
+use Framework\App;
 
 // Initialise the app
 $app = new App();

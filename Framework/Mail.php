@@ -1,6 +1,6 @@
 <?php
-// Pull in the mailer plugin.
-require_once 'plugins/PHPMailer/PHPMailerAutoload.php';
+namespace Framework;
+
 /**
  * Framework Mailer.
  *
@@ -91,7 +91,7 @@ class Mail{
    *
    * @return void
    */
-  public function __construct(){
+  /*public function __construct(){
     $this->client = new PHPMailer;
     $this->from = array('name' => 'Framework', 'email' => 'mail@framework');
     $this->reply = array('name' => 'No Reply', 'email' => 'no-replay@framework');
@@ -101,7 +101,7 @@ class Mail{
       $this->config = $config->smtp;
       $this->smtp();
     }
-  }
+  }*/
 
   /**
    * Implements send();
