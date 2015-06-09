@@ -14,6 +14,9 @@ use Framework\Controller;
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
 class IndexController extends Controller{
+
+	public $protected = false;
+
 	public function pre_init(){
 		$this->asset('css', 'bootstrap.min.css');
     $this->asset('css', 'template.css');

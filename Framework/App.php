@@ -84,8 +84,9 @@ class App{
 
         // Set the header to be 404.
 				$this->router->header('HTTP/1.0 404 Not Found');
-        $controller = '\Framework\\'.$this->router->controller;
 
+        // Use the base controller.
+        $controller = '\Framework\\'.$this->router->controller;
         $control = new $controller();
 
         // Check if there is a custom 404 page, or use the stock one.
