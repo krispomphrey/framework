@@ -1,6 +1,8 @@
 <?php
 namespace Framework;
 
+use Model;
+
 /**
  * Framework Parent Controller.
  *
@@ -75,16 +77,11 @@ class Controller{
    * @return void
    */
 	public function __construct(){
-    $this->db     = new Database();
     $this->router = new Router();
     $this->user   = new Auth();
-    $this->config = new Config();
 
     // Call the pre_init hook form the children.
 		$this->pre_init();
-
-    // If there is post data, check to see if we are logging in.
-    if($_POST) $this->check_for_login($_POST);
 
     // Run the request through the authentication method to see if it's needed.
 		if($this->auth()){
@@ -202,59 +199,9 @@ class Controller{
    * @param string  $model    String holds what model to include and initialise.
    */
 	public function model($model){
-		$this->incl(MODEL_ROOT.$model);
-		$model = $model.'Model';
+		$model = '\Model\\'.$model.'Model';
 		$this->model = new $model();
 	}
-
-  /**
-   * Implements check_for_login();
-   *
-   * This is the catch for a posted page. The function expects at least $_POST['fw']['username']
-   * and $_POST['fw']['password'].
-   *
-   * @param string  $data    $_POST sent through from constructor.
-   */
-  private function check_for_login($data){
-    if($this->db && !$this->user->loggedin){
-      // Check to see if the array fw[] is there which is used on all login forms.
-      if(isset($data['fw']['username'])){
-        // Pull in the Users model.
-        $this->model('Users');
-
-        // Get the correct data from the database.
-        $this->model->get(array('args' => array(array('username', '=', $data['fw']['username']))));
-
-        // If there is a response.
-        if($this->model->data){
-          foreach($this->model->data as $db => $results){
-            $user = array_pop($results);
-            if(!empty($user)){
-              if($this->user->check_password($data['fw']['password'], $user->password)){
-                $this->user->login(array(
-                  'id' => $user->id,
-                  'name' => $user->name,
-                  'email' => $user->email,
-                  'username' => $user->username,
-                  'acl' => $user->acl,
-                  'db' => $db,
-                  'loggedin' => true
-                ));
-                break;
-              } else {
-                $this->messages[] = array('type' => 'danger', 'notice' => 'Password is incorrect.');
-              }
-            } else {
-              $this->messages[] = array('type' => 'danger', 'notice' => 'Username is incorrect.');
-            }
-          }
-        }
-      }
-      $this->model = null;
-    } else {
-      $this->messages[] = array('type' => 'info', 'notice' => 'You are already logged in!');
-    }
-  }
 
   /**
    * Implements asset();

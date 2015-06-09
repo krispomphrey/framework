@@ -2,8 +2,6 @@
 
 namespace Framework;
 
-use Model;
-
 /**
  * Framework Parent Model.
  *
@@ -54,6 +52,8 @@ class Model{
    * @return void
    */
 	public function __construct(){
+    $this->db   = new Database();
+    $this->user = new Auth();
 
     // Setup the other models so they are accessable inside this model.
 		$this->other_models();
@@ -189,7 +189,6 @@ class Model{
 	private function other_models(){
 		if(!empty($this->models)){
 			foreach($this->models as $model){
-				$this->incl(MODEL_ROOT."{$model}");
 				$m = $model.'Model';
 				$this->$model = new $m;
 			}

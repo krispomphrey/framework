@@ -55,9 +55,7 @@ class App{
    */
 	public function __construct(){
     // Assign helpers to variables.
-		$this->db     = new Database();
 		$this->router = new Router();
-		$this->user   = new Auth();
     $this->config = new Config();
 	}
 
@@ -76,7 +74,7 @@ class App{
       var_dump($data);
       print_r('</pre>');
 
-      if($die) $this->kill();
+      if($die) App::kill();
     }
   }
 
@@ -93,7 +91,6 @@ class App{
    * @return void
    */
 	public function go(){
-    //$this->debug($this->router);
     // Make sure that the path isn't in the ignore array (i.e. assets);
     if(!in_array($this->router->controller, $this->router->ignore)){
       // If there is no path, we are on the index page.  Show it!.
@@ -109,7 +106,7 @@ class App{
 				if(file_exists(LAYOUT_ROOT.'404.php')){
 					$control->layout('404');
 				} else {
-					$this->kill('Page Not Found.');
+					App::kill('Page Not Found.');
 				}
 			} else {
         // Create the new controller and invoke it.
@@ -129,7 +126,7 @@ class App{
    * @param string  $message  A custom message to die with.
    * @return null
    */
-  public function kill($message = null){
+  public static function kill($message = null){
     die($message);
   }
 }
