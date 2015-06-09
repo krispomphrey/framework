@@ -12,6 +12,7 @@ namespace Framework;
 define('DIR_ROOT', getcwd());
 
 // Make sure Framework is ready.
+// Fire the autoloader to get the needed clases.
 require_once('Framework/AutoLoader.php');
 $auto_loader = new AutoLoader();
 

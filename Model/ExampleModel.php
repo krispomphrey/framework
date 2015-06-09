@@ -27,6 +27,7 @@ class ExampleModel extends Model{
    * Fired when a model is ready.
    */
 	public function init(){
+    var_dump($this->db);
     // You can use other models you have defined here by doing the following:
     /*
     $otherModel = new OtherModel();

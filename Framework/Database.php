@@ -43,6 +43,7 @@ class Database{
 	public function __construct(){
     // Grab the configuration so we can extract some databases.
 		$this->config = new Config();
+
     // Make sure there are databases to use.
     if(isset($this->config->dbs) && !empty($this->config->dbs)){
       // Count how many databases we have, so we can set the object to be simple or multidimensional.
@@ -50,7 +51,8 @@ class Database{
       foreach($this->config->dbs as $key => $db){
         // Check that the type is set so we can require the correct driver.
         if($db['type'] && !empty($db['type'])){
-          $class = ucwords($db['type']).'Driver';
+          // Build the database driver class to pull in.
+          $class = '\Framework\\Drivers\\Database\\'.ucwords($db['type']).'Driver';
 
           // Only do something if the driver class exists.
           if(class_exists($class)){

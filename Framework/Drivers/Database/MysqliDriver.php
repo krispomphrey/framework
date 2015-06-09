@@ -1,4 +1,7 @@
 <?php
+
+namespace Framework\Drivers\Database;
+
 /**
  * The MySQLi driver for the framework.
  * Class defines database and holds useful functions.
@@ -9,7 +12,7 @@
 class MysqliDriver{
   private $config;
   private $client;
-  public $db;
+  public  $db;
 
   /**
    * Implements __construct();
@@ -20,7 +23,7 @@ class MysqliDriver{
    * @param array     $credentials    The database details that are needed to run the database.
    */
   public function __construct($db_name, $credentials){
-    $this->db = $db_name;
+    $this->db     = $db_name;
     $this->config = $credentials;
     $this->init();
   }

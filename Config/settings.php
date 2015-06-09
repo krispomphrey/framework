@@ -30,7 +30,7 @@ class Settings{
       'fw_data' => array(
         'type' => 'mysqli',
         'user' => 'root',
-        'password' => 's10052',
+        'password' => 'root',
         'host' => 'localhost',
         'prefix' => ''
       )
