@@ -5,11 +5,9 @@ namespace Model;
 use Framework\Model;
 
 /**
- * Framework Parent Model.
+ * Framework Model.
  *
- * This is the main model that is extended by user models and extends
- * the App class, that sets up framework specific objects and functions.
- * Helper functions are set up for inheritance and are used for "data" specific things.
+ * This is an example Model for usage.
  *
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
@@ -27,7 +25,6 @@ class ExampleModel extends Model{
    * Fired when a model is ready.
    */
 	public function init(){
-    var_dump($this->db);
     // You can use other models you have defined here by doing the following:
     /*
     $otherModel = new OtherModel();

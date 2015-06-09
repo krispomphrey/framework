@@ -59,9 +59,7 @@ class Model{
 		$this->other_models();
 
     // Fire the pagination (if there is a limit present) method so we can pull in correct details when limiting calls.
-    if($this->page_break){
-      $this->pagination();
-    }
+    if($this->page_break) $this->pagination();
 
     // Fire init hook.
 		$this->init();
@@ -135,7 +133,7 @@ class Model{
       $statement['limit'] = array($start, $this->page_break);
     }
 		$this->data = $this->db->select($statement,  $instances = null);
-    return true;
+    return $this->data;
 	}
 
   /**

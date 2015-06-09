@@ -7,7 +7,7 @@ use Controller;
 /**
  * Framework.
  *
- * @version 0.1.3
+ * @version 0.1.4
  *
  * The base class that holds all the objects (and keys) for the controllers,
  * models and views to gain access to by extension.
@@ -21,29 +21,12 @@ class App{
    * @var object
    */
   public $config;
-  /**
-   * Variable that will hold the DB connection.
-   * @var object
-   */
-	public $db;
 
   /**
    * Variable that will hold the router.
    * @var object
    */
 	public $router;
-
-  /**
-   * Variable that will hold the mailer.
-   * @var object
-   */
-  public $mail;
-
-  /**
-   * Variable that will hold the user auth.
-   * @var object
-   */
-	public $user;
 
   /**
    * Implements __construct();
@@ -55,8 +38,8 @@ class App{
    */
 	public function __construct(){
     // Assign helpers to variables.
-		$this->router = new Router();
     $this->config = new Config();
+		$this->router = new Router();
 	}
 
   /**
@@ -101,6 +84,9 @@ class App{
 
         // Set the header to be 404.
 				$this->router->header('HTTP/1.0 404 Not Found');
+        $controller = '\Framework\\'.$this->router->controller;
+
+        $control = new $controller();
 
         // Check if there is a custom 404 page, or use the stock one.
 				if(file_exists(LAYOUT_ROOT.'404.php')){
@@ -113,7 +99,6 @@ class App{
 				$controller = "\Controller\\".$this->router->controller;
 
 				$control = new $controller();
-
 			}
 		}
 	}
