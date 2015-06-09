@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Controller;
 
 use Framework\Controller;
 
@@ -16,7 +16,7 @@ use Framework\Controller;
 class IndexController extends Controller{
 	public function pre_init(){
 		$this->asset('css', 'bootstrap.min.css');
-    $this->asset('css', 'template.css', true);
+    $this->asset('css', 'template.css');
 	}
 
 	public function init(){

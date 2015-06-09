@@ -1,5 +1,8 @@
 <?php
+
 namespace Framework;
+
+use Model;
 
 /**
  * Framework Parent Model.
@@ -11,7 +14,7 @@ namespace Framework;
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class Model extends App{
+class Model{
   /**
    * Holds the table that this model will use.
    * @var string
@@ -48,14 +51,9 @@ class Model extends App{
    *
    * The main Model constructor.
    *
-   * This will invoke App::__construct() so we can get access to the database,
-   * current user and router from within the controller.
-   *
    * @return void
    */
 	public function __construct(){
-    // Call the parent construct to get access to user, databases etc.
-		parent::__construct();
 
     // Setup the other models so they are accessable inside this model.
 		$this->other_models();

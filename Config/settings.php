@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Core;
+namespace Config;
 
 /**
  * Framework Configuration.
@@ -9,7 +9,7 @@ namespace Framework\Core;
  * @package   Framework
  * @author    Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class Config{
+class Settings{
   public function __construct(){
   	/* An example of how to register a database.
      * For multiple databases, add to the array with 'db_name' => 'options'.  All options are needed, even if blank.
@@ -36,31 +36,8 @@ class Config{
       )
     );
 
-    /* An example of how to setup the SMTP settings for the mailer.
-     * If no settings are found the local mail server will be used.
-     */
-    /*
-    $this->smtp = array(
-      'host' => array(
-        'smtp1.example.com',
-        'smtp2.example.com'
-      ),
-      'auth' => array(
-        'enabled' => true,
-        'credentials' => array(
-          'username' => 'user@example.com',
-          'password' => 'secret'
-        ),
-        'secure' => 'tls'
-      ),
-    );
-    */
-
     // Whether to output debugging information or not.
   	$this->debug = true;
-
-    // Whether to expose the logger to the app.
-    $this->logging = false;
 
     // Sets the base url of the site.  Leave as default for multi domain sites.
     $this->base_url = $_SERVER['HTTP_HOST'];

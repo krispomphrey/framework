@@ -2,6 +2,7 @@
 namespace Framework;
 
 use Framework\Config;
+use Framework\Drivers\Database\MysqliDriver;
 
 /**
  * Framework Database Class.
@@ -50,11 +51,9 @@ class Database{
         // Check that the type is set so we can require the correct driver.
         if($db['type'] && !empty($db['type'])){
           $class = ucwords($db['type']).'Driver';
-          // Build the driver path.
-          $current = FW_ROOT.'Drivers/Database/'.$class.'.php';
+
           // Only do something if the driver class exists.
-          if(file_exists($current)){
-            require_once($current);
+          if(class_exists($class)){
             // Start the new instance of the database.
             $this->dbs[$key] = new $class($key, $db);
           } else return false;

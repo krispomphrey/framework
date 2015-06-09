@@ -2,6 +2,6 @@
 
 namespace Framework;
 
-class Config{
+use Config\Settings;
 
-}
+class Config extends Settings{ }

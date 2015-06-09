@@ -17,13 +17,13 @@ class AutoLoader{
   }
 
   protected function load($class){
-      $load = DIR_ROOT."/$class.php";
-
+    $load = DIR_ROOT."/$class.php";
       var_dump($load);
-      var_dump(is_readable($load));
 
-      if(is_readable($load)){
-        require_once($load);
-      }
+    if(is_readable($load)){
+      //var_dump($load);
+      var_dump($class);
+      require_once($load);
+    }
   }
 }

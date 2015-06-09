@@ -11,7 +11,7 @@ namespace Framework;
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
-class Controller extends App{
+class Controller{
   /**
    * Holds the model object that is defined for this controller.
    * @var object
@@ -36,12 +36,6 @@ class Controller extends App{
    * @var object
    */
   public $view;
-
-  /**
-   * Holds the whether we are in admin or not in the layout.
-   * @var boolean
-   */
-  public $admin;
 
   /**
    * An array of messages to be output to the frontend.
@@ -81,8 +75,10 @@ class Controller extends App{
    * @return void
    */
 	public function __construct(){
-    // Call the App constructor to get access to users, databases etc.
-    parent::__construct();
+    $this->db     = new Database();
+    $this->router = new Router();
+    $this->user   = new Auth();
+    $this->config = new Config();
 
     // Call the pre_init hook form the children.
 		$this->pre_init();
@@ -97,12 +93,7 @@ class Controller extends App{
 		} else {
       // Check to see if a login screen is needed.
 			if(isset($this->login) && $this->login){
-        // Check if it's the admin that is needed.
-				if($this->router->controller == 'Admin'){
-					$this->layout = 'login';
-					$this->asset('css', 'login.css', true);
-					$this->render('login', true);
-				} else $this->render('login');
+        $this->render('login');
 			} else {
         // Else we show an Access Denied page.
 				$this->render('no-access');
@@ -170,13 +161,11 @@ class Controller extends App{
    * will render a view inside a layout).
    *
    * @param string  $view    Assigned to the object $this->view so that it can be accessed in the layout.
-   * @param boolean $admin   Whether to use the admin specific layouts.
    */
-	public function render($view, $admin = false){
+	public function render($view){
     $this->view = $view;
-    $this->admin = $admin;
-		if($admin) $path = ADMIN_LAYOUT_ROOT;
-		else $path = LAYOUT_ROOT;
+
+		$path = LAYOUT_ROOT;
 		$this->incl($path.$this->layout);
 	}
 
@@ -186,11 +175,9 @@ class Controller extends App{
    * Gets the view file and includes it where needed.
    *
    * @param string  $view    Holds the view file (minus php) to include.
-   * @param boolean $admin   Whether to use the admin specific view.
    */
-	public function view($view, $admin = false){
-		if($admin) $path = ADMIN_VIEW_ROOT;
-		else $path = VIEW_ROOT;
+	public function view($view){
+		$path = VIEW_ROOT;
 		$this->incl($path.$view);
 	}
 
@@ -200,11 +187,9 @@ class Controller extends App{
    * Includes the layout file defined.
    *
    * @param string  $layout    A string of the layout to be included.
-   * @param boolean $admin   Whether to use the admin specific layouts.
    */
-	public function layout($layout, $admin = false){
-		if($admin) $path = ADMIN_LAYOUT_ROOT;
-		else $path = LAYOUT_ROOT;
+	public function layout($layout){
+		$path = LAYOUT_ROOT;
 		$this->incl($path.$layout);
 	}
 
@@ -269,5 +254,77 @@ class Controller extends App{
     } else {
       $this->messages[] = array('type' => 'info', 'notice' => 'You are already logged in!');
     }
+  }
+
+  /**
+   * Implements asset();
+   *
+   * Add an asset (js/css) to the queue array.
+   *
+   * @param string  $type    The type of asset to include ('css' or 'js').
+   * @param string  $file    The file to include.  This file should be available in the assets folder, but can be a subfolder.
+   * @return void
+   */
+  public function asset($type, $file){
+    $this->queue[$type][] = "$path/Assets/$type/$file";
+  }
+
+  /**
+   * Implements flush_assets();
+   *
+   * Echos everything in the queue (js/css).
+   *
+   * @return void
+   */
+  public function flush_assets(){
+    // If there is anything in the queue.
+    if(!empty($this->queue) && is_array($this->queue)){
+      foreach($this->queue as $key => $value){
+        foreach($value as $q){
+          switch($key){
+            case 'css': echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"$q\" />\n"; break;
+            case 'js': echo "<script src=\"$q\"></script>\n"; break;
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Implements incl();
+   *
+   * Include a custom php file (minus .php).
+   *
+   * @param string  $inc  The asset to include minus the .php
+   * @return int/boolean  Will return 1 or false.
+   */
+  public function incl($inc, $once = true){
+    // Make sure the file exists before including it.
+    if(file_exists("{$inc}.php")){
+      if($once){
+        return include_once("{$inc}.php");
+      } else{
+        return include("{$inc}.php");
+      }
+    } else return false;
+  }
+
+  /**
+   * Implements req();
+   *
+   * Require a custom php file (minus .php).
+   *
+   * @param string  $inc  The asset to include minus the .php
+   * @return int/boolean  Will return 1 or false.
+   */
+  public function req($inc, $once = true){
+    // Make sure the file exists before including it.
+    if(file_exists("{$inc}.php")){
+      if($once){
+        return require_once("{$inc}.php");
+      } else{
+        return require("{$inc}.php");
+      }
+    } else return false;
   }
 }

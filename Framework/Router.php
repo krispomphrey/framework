@@ -3,6 +3,8 @@ namespace Framework;
 
 use Framework\Config;
 
+use Controllers;
+
 /**
  * Framework Router.
  *
@@ -116,12 +118,16 @@ class Router{
             $ct = ucwords($ct);
           }
           $test = implode('', $con_test);
-          if(file_exists(CONTROLLER_ROOT."{$test}.php")){
+
+          // Check to see if the class has been auto loaded.
+          if(class_exists("{$test}Controller")){
             for($i = 0; $i < $c; $i++){
               unset($parts[$i]);
             }
             $control = $test;
             break;
+          } else {
+            $control = null;
           }
         }
       }
@@ -135,6 +141,9 @@ class Router{
       // Use the default controller.
 			$this->controller = 'Index';
 		}
+
+    // Append the controller suffix so it can be used.
+    $this->controller .= 'Controller';
 	}
 
   /**
@@ -164,20 +173,19 @@ class Router{
 	}
 }
 
+
 /**
  * Define constants to the different directories needed.
  */
 
 // Framework constants.
-define('FW_ROOT', DIR_ROOT.'/Framework/');
-define('ADMIN_ASSETS_ROOT', FW_ROOT.'Admin/Assets/');
-define('ADMIN_VIEW_ROOT', FW_ROOT.'Admin/View/');
-define('ADMIN_LAYOUT_ROOT', FW_ROOT.'Admin/Layout/');
+define('FW_ROOT',         DIR_ROOT.'/Framework/');
 
 // Site constants.
-define('ASSETS_ROOT', DIR_ROOT.'/Assets/');
-define('VIEW_ROOT', DIR_ROOT.'/View/');
-define('MODEL_ROOT', DIR_ROOT.'/Model/');
-define('LAYOUT_ROOT', DIR_ROOT.'/Layout/');
+define('CONFIG_ROOT',     DIR_ROOT.'/Config/');
+define('ASSETS_ROOT',     DIR_ROOT.'/Assets/');
+define('VIEW_ROOT',       DIR_ROOT.'/View/');
+define('MODEL_ROOT',      DIR_ROOT.'/Model/');
+define('LAYOUT_ROOT',     DIR_ROOT.'/Layout/');
 define('CONTROLLER_ROOT', DIR_ROOT.'/Controller/');
-define('UPLOAD_ROOT', DIR_ROOT.'/Uploads/');
+define('UPLOAD_ROOT',     DIR_ROOT.'/Uploads/');
