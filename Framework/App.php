@@ -9,8 +9,8 @@ use Controller;
  *
  * @version 0.1.4
  *
- * The base class that holds all the objects (and keys) for the controllers,
- * models and views to gain access to by extension.
+ * The main part of the app.
+ * This makes sure that the right router is being used.
  *
  * @package     Framework
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>

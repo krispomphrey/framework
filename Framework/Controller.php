@@ -132,8 +132,8 @@ class Controller{
           // Check to see if the user has an acl.
 					if(isset($this->user->session['fw']['acl']) && in_array($this->user->session['fw']['acl'], $acls)){
 						switch($type){
-							case 'allow': return true; break;
-							case 'deny': return false; break;
+							case 'allow' : return true;  break;
+							case 'deny'  : return false; break;
 						}
 					} else {
 						return false;

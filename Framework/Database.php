@@ -1,8 +1,11 @@
 <?php
 namespace Framework;
 
+if(file_exists(FW_ROOT.'vendor/autoload.php')) require_once FW_ROOT.'vendor/autoload.php';
+
 use Framework\Config;
-use Framework\Drivers\Database\MysqliDriver;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Framework Database Class.
@@ -49,177 +52,25 @@ class Database{
       // Count how many databases we have, so we can set the object to be simple or multidimensional.
       // Run through each of the databases defined.
       foreach($this->config->dbs as $key => $db){
-        // Check that the type is set so we can require the correct driver.
-        if($db['type'] && !empty($db['type'])){
-          // Build the database driver class to pull in.
-          $class = '\Framework\\Drivers\\Database\\'.ucwords($db['type']).'Driver';
+        $paths = array(empty($db['entity_path']) ? DIR_ROOT.$db['entity_path'] : ENTITY_ROOT);
+        $isDevMode = $this->config->debug ? $this->config->debug : false;
 
-          // Only do something if the driver class exists.
-          if(class_exists($class)){
-            // Start the new instance of the database.
-            $this->dbs[$key] = new $class($key, $db);
-          } else return false;
-        } else return false;
+        // The connection configuration
+        $dbParams = array(
+          'driver'   => $db['driver'],
+          'user'     => $db['user'],
+          'password' => $db['password'],
+          'dbname'   => $key,
+        );
+
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+
+        // Build the doctrine settings.
+        // Assign an entity manager to the db for use!
+        $this->dbs[$key] = EntityManager::create($dbParams, $config);
       }
     } else return false;
 	}
-
-  /**
-   * Implements __construct();
-   *
-   * The main Database constructor.  This will run through the list of databases
-   * (if any) in the config and create instances available at $db->dbs['DB_NAME'].
-   *
-   * @return void
-   */
-  public function __destruct(){
-    if(isset($this->config->dbs) && !empty($this->config->dbs)){
-      $this->destroy();
-    }
-  }
-
-  /**
-   * Implements query();
-   *
-   * A generic query wrapper that can be used to pass a statement to the driver.
-   * All drivers will have at LEAST a query function.
-   *
-   * @param mixed   $statement    The statement to be passed to the driver.
-   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
-   * @return void/mixed
-   */
-  public function query($statement, $instances = array()){
-    if($statement){
-      if(!empty($instances)){
-        foreach($instances as $instance){
-          $this->data[$instance] = $this->dbs[$instance]->query($statement);
-        }
-      } else {
-        foreach($this->dbs as $key => $db){
-          $this->data[$key] = $db->query($statement);
-        }
-      }
-      return $this->data;
-    } else $this->error();
-  }
-
-  /**
-   * Implements insert();
-   *
-   * Create something new.
-   *
-   * @param array   $data         An array of data to insert in FIELD => VALUE array.
-   * @param array   $statement    The statement to be passed to the driver.
-   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
-   * @return void/mixed
-   */
-  public function insert($data, $statement = array(), $instances = array()){
-    if($statement){
-      if(!empty($instances)){
-        foreach($instances as $instance){
-          $this->data[$instance] = $this->dbs[$instance]->insert($data, $statement);
-        }
-      } else {
-        foreach($this->dbs as $key => $db){
-          $this->data[$key] = $db->insert($data, $statement);
-        }
-      }
-      return $this->data;
-    } else $this->error();
-  }
-
-  /**
-   * Implements select();
-   *
-   * Knowledge is power.  Have some.
-   *
-   * @param mixed   $statement    The statement to be passed to the driver.
-   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
-   * @return void/mixed
-   */
-  public function select($statement, $instances = array()){
-    if($statement){
-      if(!empty($instances)){
-        foreach($instances as $instance){
-          $this->data[$instance] = $this->dbs[$instance]->select($statement);
-        }
-      } else {
-        foreach($this->dbs as $key => $db){
-          $this->data[$key] = $db->select($statement);
-        }
-      }
-      return $this->data;
-    } else $this->error();
-  }
-
-  /**
-   * Implements update();
-   *
-   * Level up!
-   *
-   * @param array   $data         An array of data to update in FIELD => VALUE array.
-   * @param array   $statement    The statement to be passed to the driver.
-   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
-   * @return void
-   */
-  public function update($data, $statement, $instances = array()){
-    if($statement){
-      if(!empty($instances)){
-        foreach($instances as $instance){
-          $this->data[$instance] = $this->dbs[$instance]->update($data, $statement);
-        }
-      } else {
-        foreach($this->dbs as $key => $db){
-          $this->data[$key] = $db->update($data, $statement);
-        }
-      }
-    } else $this->error();
-  }
-
-  /**
-   * Implements delete();
-   *
-   * Content can no longer be allowed to exist.
-   *
-   * @param array   $statement    The statement to be passed to the driver.
-   * @param array   $instances    Used to run statement on one or more instances of a database, rather than all.
-   * @return void/mixed
-   */
-  public function delete($statement, $instances = array()){
-    if($statement){
-      if(!empty($instances)){
-        foreach($instances as $instance){
-          $this->data[$instance] = $this->dbs[$instance]->delete($statement);
-        }
-      } else {
-        foreach($this->dbs as $key => $db){
-          $this->data[$key] = $db->delete($statement);
-        }
-      }
-      return $this->data;
-    } else $this->error();
-  }
-
-  /**
-   * Implements destroy();
-   *
-   * You can kill a connection.  You can't kill an idea.
-   *
-   * @param array   $instances    Used to kill one or more instances of a database, rather than all.
-   * @return void/mixed
-   */
-  public function destroy($instances = array()){
-    if(!empty($instances)){
-      foreach($instances as $instance){
-        $this->dbs[$instance]->destroy();
-      }
-    } else {
-      foreach($this->dbs as $key => $db){
-        $db->destroy();
-      }
-    }
-    return $this->data;
-  }
 
   /**
    * Implements error();
@@ -234,4 +85,7 @@ class Database{
       die(include_once(FW_ROOT.'static/error.php'));
     }
   }
-} ?>
+}
+
+// Default root for Doctrine Entities
+define('ENTITY_ROOT',     MODEL_ROOT.'/Entity/');

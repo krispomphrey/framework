@@ -1,12 +1,14 @@
 <?php
+
+namespace Framework;
+
 /**
  * This is the main index.php file that
- * handles the routing of the pages
+ * handles loading the framework.
  *
  * @package   Framework
  * @author    Kris Pomphrey <kris@krispomphrey.co.uk>
  **/
-namespace Framework;
 
 // Define the directory root of the site for use through the site.
 define('DIR_ROOT', getcwd());

@@ -28,11 +28,12 @@ class Settings{
 
     $this->dbs = array(
       'fw_data' => array(
-        'type' => 'mysqli',
-        'user' => 'root',
-        'password' => 'root',
-        'host' => 'localhost',
-        'prefix' => ''
+        'driver'      => 'pdo_mysql',
+        'user'        => 'root',
+        'password'    => 'root',
+        'host'        => 'localhost',
+        'prefix'      => '',
+        'entity_path' => '',
       )
     );
 
