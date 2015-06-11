@@ -12,7 +12,7 @@ namespace Framework;
 
 class AutoLoader{
 
-  public function __construct($data = null){
+  public function __construct(){
     spl_autoload_register(array($this, 'load'));
   }
 
@@ -20,8 +20,6 @@ class AutoLoader{
     $load = DIR_ROOT."/$class.php";
 
     if(is_readable($load)){
-      //var_dump($load);
-      //var_dump($class);
       require_once($load);
     }
   }
