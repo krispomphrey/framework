@@ -21,6 +21,12 @@ class Controller{
 	public $model;
 
   /**
+   * An array of data that will be passed to layouts and views.
+   * @var array
+   */
+  public $data;
+
+  /**
    * Variable holds the current layout to use when rendering the page.
    * This defaults to 'index'.
    * @var string
@@ -158,9 +164,11 @@ class Controller{
    * will render a view inside a layout).
    *
    * @param string  $view    Assigned to the object $this->view so that it can be accessed in the layout.
+   * @param array  $data    An array of data that will be passed as variables.
    */
-	public function render($view){
+	public function render($view, $data = null){
     $this->view = $view;
+    $this->data = $data;
 
 		$path = LAYOUT_ROOT;
 		$this->incl($path.$this->layout);
@@ -246,6 +254,8 @@ class Controller{
    * @return int/boolean  Will return 1 or false.
    */
   public function incl($inc, $once = true){
+    if($this->data) extract($this->data);
+
     // Make sure the file exists before including it.
     if(file_exists("{$inc}.php")){
       if($once){

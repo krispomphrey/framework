@@ -13,15 +13,16 @@ class Settings{
   public function __construct(){
   	/* An example of how to register a database.
      * For multiple databases, add to the array with 'db_name' => 'options'.  All options are needed, even if blank.
+     * Because doctrine is used, you can specify the driver and where the entities will live.
      */
     /*
     $this->dbs = array(
       'fw_data' => array(
-        'type' => 'mysqli',
-        'user' => 'DB_USER',
-        'password' => 'DB_PASSWORD',
-        'host' => 'localhost',
-        'prefix' => ''
+        'driver'      => 'pdo_mysql',
+        'user'        => 'root',
+        'password'    => 'root',
+        'host'        => 'localhost',
+        'entity_path' => '',
       )
     );
     */
@@ -32,7 +33,6 @@ class Settings{
         'user'        => 'root',
         'password'    => 'root',
         'host'        => 'localhost',
-        'prefix'      => '',
         'entity_path' => '',
       )
     );

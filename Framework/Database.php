@@ -1,7 +1,8 @@
 <?php
 namespace Framework;
 
-if(file_exists(FW_ROOT.'vendor/autoload.php')) require_once FW_ROOT.'vendor/autoload.php';
+// Check if there are any Vendor classes to autoload.
+if(file_exists(FW_ROOT.'vendor/autoload.php')) require_once FW_ROOT.'Vendor/autoload.php';
 
 use Framework\Config;
 use Doctrine\ORM\Tools\Setup;
@@ -27,7 +28,7 @@ class Database{
    * Holds an array of databased and their clients.
    * @var object
    */
-	private $dbs;
+	public $dbs;
 
   /**
    * Holds the configuration from settings.php.
@@ -52,10 +53,14 @@ class Database{
       // Count how many databases we have, so we can set the object to be simple or multidimensional.
       // Run through each of the databases defined.
       foreach($this->config->dbs as $key => $db){
+
+        // Grab the user set path (if one exists).
         $paths = array(empty($db['entity_path']) ? DIR_ROOT.$db['entity_path'] : ENTITY_ROOT);
+
+        // Check to see if debug is switched on.
         $isDevMode = $this->config->debug ? $this->config->debug : false;
 
-        // The connection configuration
+        // The connection configuration.
         $dbParams = array(
           'driver'   => $db['driver'],
           'user'     => $db['user'],
@@ -86,6 +91,3 @@ class Database{
     }
   }
 }
-
-// Default root for Doctrine Entities
-define('ENTITY_ROOT',     MODEL_ROOT.'/Entity/');

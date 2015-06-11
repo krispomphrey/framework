@@ -4,6 +4,9 @@ namespace Model;
 
 use Framework\Model;
 
+// Import the Doctrine Entity (i.e. the table) to use with the model.
+use Model\Entity\Example;
+
 /**
  * Framework Model.
  *
@@ -13,11 +16,6 @@ use Framework\Model;
  * @author      Kris Pomphrey <kris@krispomphrey.co.uk>
  */
 class ExampleModel extends Model{
-  /**
-   * Holds the table that this model will use.
-   * @var string
-   */
-	public $table = 'TABLE_NAME';
 
   /**
    * Implements init();
@@ -25,14 +23,8 @@ class ExampleModel extends Model{
    * Fired when a model is ready.
    */
 	public function init(){
-    // You can use other models you have defined here by doing the following:
-    /*
-    $otherModel = new OtherModel();
+    $example = new Example();
 
-    $otherModel->get();
-
-    $data = $otherModel->data;
-    */
+    $example->setCreated();
   }
-
 }

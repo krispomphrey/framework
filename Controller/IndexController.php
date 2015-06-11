@@ -16,10 +16,10 @@ use Framework\Controller;
 class IndexController extends Controller{
 
 	public $protected = false;
+	public $login = false;
 
 	public function pre_init(){
-		$this->asset('css', 'bootstrap.min.css');
-    $this->asset('css', 'template.css');
+		//$this->asset('css', 'bootstrap.min.css');
 
     $this->model('Example');
 	}
